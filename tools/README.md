@@ -2,7 +2,7 @@
 
 <li> Web Application Framework : 웹 애플리케이션을 빠르게 개발할 수 있도록 도와주는 도구
 <ol>
-<li> Web Application Framework
+<li> Web Application Framework (Full-stack)
     <ol>
     <li>Django</li>
     <ul> 
@@ -21,12 +21,35 @@
     <li>커뮤니티와 생태계: 장고는 활발한 커뮤니티와 다양한 확장 기능을 제공하는 생태계를 가지고 있습니다. 
     </ol>
     </ul>
-    <li>Django REST Framework</li>
     <li>Spring</li>
-    <li>Laravel</li>
-    <li>Flask</li>
-    <li>Express JS</li>
     </ol>
+<li>Django REST Framework [Django 안에서 RESTful API 서버를 쉽게 구축할 수 있도록 도와주는 오픈소스 라이브러리입니다.]</li>
+    <a>https://www.incodom.kr/REST#h_c9da54c50b7d469b56863a778d4c9695</a>
+    <ul>
+    <li>오늘날 웹에서 볼 수 있는 가장 많이 사용되고 유연한 API.</li>
+    <li>클라이언트가 서버에 요청을 데이터로 전송.</li>
+    <li>서버가 이 클라이언트 입력을 사용해 내부 함수를 시작, 출력 데이터를 다시 클라이언트에 반환.</li>
+    <li>장점</li>
+    <ol>
+    <li>HTTP 프로토콜의 인프라를 그대로 사용하므로 REST API 사용을 위한 별도의 인프라를 구출할 필요가 없다.</li>
+    <li>HTTP 프로토콜의 표준을 최대한 활용하여 여러 추가적인 장점을 함께 가져갈 수 있게 해준다.</li>
+    <li>HTTP 표준 프로토콜에 따르는 모든 플랫폼에서 사용이 가능하다.</li>
+    <li>Hypermedia API의 기본을 충실히 지키면서 범용성을 보장한다.</li>
+    <li>REST API 메시지가 의도하는 바를 명확하게 나타내므로 의도하는 바를 쉽게 파악할 수 있다.</li>
+    <li>여러 가지 서비스 디자인에서 생길 수 있는 문제를 최소화한다.</li>
+    <li>서버와 클라이언트의 역할을 명확하게 분리한다.</li>
+    </ol>
+    <li>단점</li>
+    <ol>
+    <li>표준이 자체가 존재하지 않아 정의가 필요하다.</li>
+    <li>HTTP 프로토콜의 표준을 최대한 활용하여 여러 추가적인 장점을 함께 가져갈 수 있게 해준다.</li>
+    <li>사용할 수 있는 메소드가 4가지밖에 없다.</li>
+    <li>HTTP Method 형태가 제한적이다.</li>
+    <li>브라우저를 통해 테스트할 일이 많은 서비스라면 쉽게 고칠 수 있는 URL보다 Header 정보의 값을 처리해야 하므로 전문성이 요구된다.</li>
+    <li>구형 브라우저에서 호환이 되지 않아 지원해주지 못하는 동작이 많다.(익스폴로어)</li>
+    </ol>
+    </ul>
+<li> Vue.js [자바스크립트 프론트엔드 프레임워크]
 <li> HTML, CSS, [Vue.js], Node.js, JavaScript
 
 
