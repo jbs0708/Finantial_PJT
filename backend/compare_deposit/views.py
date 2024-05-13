@@ -6,11 +6,12 @@ from django.http import JsonResponse
 
 from rest_framework.decorators import api_view
 
+
 from .models import DepositProducts,DepositOptions,SavingProducts,SavingOptions
 from .serializers import DepositProductsSerializer,DepositOptionsSerializer,SavingOptionsSerializer,SavingProductsSerializer
 
 # Create your views here.
-API_KEY = settings.API_KEY
+# API_KEY = settings.API_KEY
 
 BASE_URL = 'http://finlife.fss.or.kr/finlifeapi/'
 @api_view(['GET'])
