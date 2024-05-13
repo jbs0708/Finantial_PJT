@@ -55,7 +55,7 @@
 
 
 <li> SQLite
-<li> front 
+<li> front (?)
 <ol>
 <li>vite 
 <li>Axios
