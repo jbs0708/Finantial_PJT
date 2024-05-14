@@ -102,7 +102,7 @@
           const start = (page - 1) * itemsPerPage
           const end = start + itemsPerPage
           const items = desserts.slice()
-
+          console.log(items)
           if (sortBy.length) {
             const sortKey = sortBy[0].key
             const sortOrder = sortBy[0].order
@@ -131,7 +131,7 @@
           sortable: false,
           key: 'name',
         },
-        { title: 'Calories', key: 'calories', align: 'end' },
+        { title: 'aaa', key: 'calorieaas', align: 'end' },
         { title: 'Fat (g)', key: 'fat', align: 'end' },
         { title: 'Carbs (g)', key: 'carbs', align: 'end' },
         { title: 'Protein (g)', key: 'protein', align: 'end' },
