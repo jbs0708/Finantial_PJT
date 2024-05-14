@@ -6,6 +6,8 @@ import LoginView from '@/views/user/LoginView.vue'
 import UserDetailView from '@/views/user/UserDetailView.vue'
 import ChangePasswordView from '@/views/user/ChangePasswordView.vue'
 
+import SearchProductView from '@/views/finantial-data/SearchProductView.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,6 +36,11 @@ const router = createRouter({
       path: '/changepassword/',
       name: 'changepassword',
       component: ChangePasswordView
+    },
+    {
+      path: '/SearchProductView/',
+      name: 'SearchProductView',
+      component: SearchProductView
     },
   ]
 })

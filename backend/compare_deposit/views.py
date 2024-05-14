@@ -4,11 +4,12 @@ from django.shortcuts import get_object_or_404
 from django.conf import settings
 from django.http import JsonResponse
 
+from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
 
 from .models import DepositProducts,DepositOptions,SavingProducts,SavingOptions
-from .serializers import DepositProductsSerializer,DepositOptionsSerializer,SavingOptionsSerializer,SavingProductsSerializer
+from .serializers import DepositProductsSerializer,DepositOptionsSerializer,SavingOptionsSerializer,SavingProductsSerializer,DepositOptionsSerializerCall
 
 # Create your views here.
 # API_KEY = settings.API_KEY
@@ -41,6 +42,11 @@ def deposit_product(request):
     # return JsonResponse({'response':response})
     return JsonResponse({'message':'okay'})
 
+@api_view(['GET'])
+def deposit_call(request):
+    deposit_products = DepositOptions.objects.all()
+    respo = DepositOptionsSerializerCall(deposit_products,many=True).data
+    return Response(respo)
 
 @api_view(['GET'])
 def saving_product(request):
