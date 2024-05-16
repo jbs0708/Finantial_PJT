@@ -1,20 +1,13 @@
 <template>
   <div>
-    <h1>예적금 상품 조회</h1>
-    <ProductList/>
+    <RouterLink to="/ProductListDeposit">예금 상품 보기</RouterLink> |
+    <RouterLink to="/ProductListSaving">적금 상품 보기</RouterLink>
+    
   </div>
 </template>
 
 <script setup>
-  import { onMounted } from 'vue'
-  import { useDataStore } from '@/stores/finantialdata'
-  import ProductList from '@/components/ProductList.vue'
-
-  const store = useDataStore()
-
-  onMounted(() => {
-    store.getDatas()
-  })
+  import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <style scoped>

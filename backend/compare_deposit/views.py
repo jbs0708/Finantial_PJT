@@ -9,12 +9,13 @@ from rest_framework.decorators import api_view
 
 
 from .models import DepositProducts,DepositOptions,SavingProducts,SavingOptions
-from .serializers import DepositProductsSerializer,DepositOptionsSerializer,SavingOptionsSerializer,SavingProductsSerializer,DepositOptionsSerializerCall
+from .serializers import DepositProductsSerializer,DepositOptionsSerializer,SavingOptionsSerializer,SavingProductsSerializer,DepositOptionsSerializerCall,SavingOptionsSerializerCall,DepositProductDetailSerializer,SavingProductDetailSerializer
 
 # Create your views here.
 # API_KEY = settings.API_KEY
 
 BASE_URL = 'http://finlife.fss.or.kr/finlifeapi/'
+# 예금 상품 API 호출
 @api_view(['GET'])
 def deposit_product(request):
     URL = BASE_URL + 'depositProductsSearch.json'
@@ -42,12 +43,14 @@ def deposit_product(request):
     # return JsonResponse({'response':response})
     return JsonResponse({'message':'okay'})
 
+# 예금 상품 조회
 @api_view(['GET'])
 def deposit_call(request):
     deposit_products = DepositOptions.objects.all()
     respo = DepositOptionsSerializerCall(deposit_products,many=True).data
     return Response(respo)
 
+# 적금 상품 API 호출
 @api_view(['GET'])
 def saving_product(request):
     URL = BASE_URL + 'savingProductsSearch.json'
@@ -74,3 +77,24 @@ def saving_product(request):
 
     # return JsonResponse({'response':response})
     return JsonResponse({'message':'okay'})
+
+# 적금 상품 조회
+@api_view(['GET'])
+def saving_call(request):
+    saving_products = SavingOptions.objects.all()
+    respo = SavingOptionsSerializerCall(saving_products,many=True).data
+    return Response(respo)
+
+# 예금 상세 조회
+@api_view(['GET'])
+def deposit_product_detail(request, fin_prdt_cd):
+    deposit_product = get_object_or_404(DepositProducts, fin_prdt_cd=fin_prdt_cd)
+    detail = DepositProductDetailSerializer(deposit_product).data
+    return Response(detail)
+
+# 적금 상세 조회
+@api_view(['GET'])
+def saving_product_detail(request, fin_prdt_cd):
+    saving_product = get_object_or_404(SavingProducts, fin_prdt_cd=fin_prdt_cd)
+    detail = SavingProductDetailSerializer(saving_product).data
+    return Response(detail)
