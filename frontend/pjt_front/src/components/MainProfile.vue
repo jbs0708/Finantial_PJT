@@ -14,6 +14,11 @@ const goDetail = function () {
 // const goRecommend = function () {
 //     router.push({name: 'productRecommend'})
 // }
+
+const goMyProfile = function () {
+    router.push({name:'myprofile'})
+}
+
 </script>
 
 <template>
@@ -22,6 +27,9 @@ const goDetail = function () {
         <div class="button-box d-flex justify-content-center">
             <div class="vbar">
                 <button class="btn btn-lg px-3" @click="goDetail">개인정보 수정</button>
+            </div>
+            <div class="vbar">
+                <button class="btn btn-lg px-3" @click="goMyProfile">나의 프로필</button>
             </div>
             <!-- <button class="btn btn-lg px-3" @click="goRecommend">추천 상품 보기</button> -->
         </div>
@@ -60,6 +68,6 @@ const goDetail = function () {
 
 .vbar{
     display: inline-block;
-    border-right: 1px solid gray;
+    padding: 5px;
 }
 </style>

@@ -27,6 +27,9 @@ const toBeContinue = function () {
             <li class="nav-item mx-2">
               <a href="#" class="nav-link" @click="toBeContinue">투자 상품 조회</a>
             </li>
+            <li class="nav-item mx-2">
+              <RouterLink :to="{ name: 'board' }" class="navbar-brand">게시판</RouterLink>
+            </li>
           </ul>
           <ul v-if="!store.token" class="ms-auto navbar-nav">
             <li class="nav-item mx-2">
