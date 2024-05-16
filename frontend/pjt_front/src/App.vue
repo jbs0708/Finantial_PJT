@@ -9,6 +9,7 @@ const toBeContinue = function () {
 </script>
 
 <template>
+  
   <nav class="navbar navbar-expand-lg" style="background-color: white;">
     <div class="container-fluid">
       <RouterLink :to="{ name: 'home' }" class="navbar-brand">Home</RouterLink>
