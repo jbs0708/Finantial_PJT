@@ -5,8 +5,10 @@ import axios from 'axios'
 
 export const userCheckStore = defineStore('usercheck', () => {
   const API_URL = 'http://127.0.0.1:8000'
-  // const API_URL = 'http://3.144.139.49'
-  const token = ref('')
+  const token = ref(null)
+  const userId = ref(null)
+  const router = useRouter()
+
 
   const isLogin = computed(() => {
     if (token.value === null) {
@@ -16,9 +18,6 @@ export const userCheckStore = defineStore('usercheck', () => {
       return true
     }
   })
-
-  const userId = ref(null)
-  const router = useRouter()
 
   const signUp = function (payload) {
     // 구조 분해할당
@@ -69,6 +68,7 @@ export const userCheckStore = defineStore('usercheck', () => {
     })
       .then((res) => {
         console.log('로그인 완료')
+        console.log(res.data.key)
         token.value = res.data.key
         userId.value = username
         router.push({name: 'home'})

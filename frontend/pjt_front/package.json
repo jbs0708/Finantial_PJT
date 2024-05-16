@@ -9,7 +9,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@mdi/font": "^7.4.47",
     "axios": "^1.6.8",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",
@@ -18,8 +17,6 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",
-    "vite": "^5.2.8",
-    "vite-plugin-vuetify": "^2.0.3",
-    "vuetify": "^3.6.5"
+    "vite": "^5.2.8"
   }
 }

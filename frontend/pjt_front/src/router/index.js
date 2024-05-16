@@ -5,13 +5,10 @@ import SignUpView from '@/views/user/SignUpView.vue'
 import LoginView from '@/views/user/LoginView.vue'
 import UserDetailView from '@/views/user/UserDetailView.vue'
 import ChangePasswordView from '@/views/user/ChangePasswordView.vue'
-
-import SearchProductView from '@/views/finantial-data/SearchProductView.vue'
-
-import ProductListDeposit from '@/views/finantial-data/ProductListDepositView.vue'
-import ProductListSaving from '@/views/finantial-data/ProductListSavingView.vue'
-import ProductDepositDetailView from '@/views/finantial-data/ProductDepositDetailView.vue'
-import ProductSavingDetailView from '@/views/finantial-data/ProductSavingDetailView.vue'
+import MyProfileView from '@/views/user/MyProfileView.vue'
+import ArticleView from '@/views/board/ArticleView.vue'
+import CreateView from '@/views/board/CreateView.vue'
+import DetailView from '@/views/board/DetailView.vue'
 
 
 const router = createRouter({
@@ -43,30 +40,30 @@ const router = createRouter({
       component: ChangePasswordView
     },
     {
-      path: '/SearchProductView/',
-      name: 'SearchProductView',
-      component: SearchProductView
+      path: '/myprofile/',
+      name: 'myprofile',
+      component: MyProfileView
     },
     {
-      path: '/ProductListDeposit/',
-      name: 'ProductListDeposit',
-      component: ProductListDeposit
+      path: '/board/',
+      name: 'board',
+      component: ArticleView
     },
     {
-      path: '/ProductListSaving/',
-      name: 'ProductListSaving',
-      component: ProductListSaving
+      path: '/create',
+      name: 'CreateView',
+      component: CreateView
     },
     {
-      path: '/ProductDepositDetailView/:fin_prdt_cd/',
-      name: 'ProductDepositDetailView',
-      component: ProductDepositDetailView
+      path: '/articles/:id',
+      name: 'DetailView',
+      component: DetailView
     },
     {
-      path: '/ProductSavingDetailView/:fin_prdt_cd/',
-      name: 'ProductSavingDetailView',
-      component: ProductSavingDetailView
-    },
+      path: '/articles/:id',
+      name: 'UpdateView',
+      component: CreateView
+    }
   ]
 })
 
