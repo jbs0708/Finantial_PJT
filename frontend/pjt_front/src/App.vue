@@ -19,7 +19,7 @@ const toBeContinue = function () {
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav">
             <li class="nav-item dropdown mx-2">
-              <a href="#" class="nav-link" @click="toBeContinue">예적금 상품 조회</a>
+              <RouterLink :to="{name: 'SearchProductView'}" class="nav-link" style="color: black;">예적금 상품 조회</RouterLink>
             </li>
             <li class="nav-item mx-2">
               <a href="#" class="nav-link" @click="toBeContinue">대출 상품 조회</a>
