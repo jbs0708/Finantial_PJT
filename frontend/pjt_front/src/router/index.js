@@ -10,6 +10,13 @@ import ArticleView from '@/views/board/ArticleView.vue'
 import CreateView from '@/views/board/CreateView.vue'
 import DetailView from '@/views/board/DetailView.vue'
 
+import SearchProductView from '@/views/finantial-data/SearchProductView.vue'
+
+import ProductListDeposit from '@/views/finantial-data/ProductListDepositView.vue'
+import ProductListSaving from '@/views/finantial-data/ProductListSavingView.vue'
+import ProductDepositDetailView from '@/views/finantial-data/ProductDepositDetailView.vue'
+import ProductSavingDetailView from '@/views/finantial-data/ProductSavingDetailView.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -63,7 +70,32 @@ const router = createRouter({
       path: '/articles/:id',
       name: 'UpdateView',
       component: CreateView
-    }
+    },
+    {
+      path: '/SearchProductView/',
+      name: 'SearchProductView',
+      component: SearchProductView
+    },
+    {
+      path: '/ProductListDeposit/',
+      name: 'ProductListDeposit',
+      component: ProductListDeposit
+    },
+    {
+      path: '/ProductListSaving/',
+      name: 'ProductListSaving',
+      component: ProductListSaving
+    },
+    {
+      path: '/ProductDepositDetailView/:fin_prdt_cd/',
+      name: 'ProductDepositDetailView',
+      component: ProductDepositDetailView
+    },
+    {
+      path: '/ProductSavingDetailView/:fin_prdt_cd/',
+      name: 'ProductSavingDetailView',
+      component: ProductSavingDetailView
+    },
   ]
 })
 
