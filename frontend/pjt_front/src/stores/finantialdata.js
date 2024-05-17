@@ -40,9 +40,8 @@ export const useDataStore = defineStore('data', () => {
     
   })
   .then(res => {
- 
     const transformedData = res.data.reduce((acc, item) => {
-      const existingItem = acc.find(i => i.금융회사명 === item.deposit_product.kor_co_nm);
+      const existingItem = acc.find(i => i.fin_prdt_cd === item.deposit_product.fin_prdt_cd);
       if (existingItem) {
           if (item.save_trm === 6) {
               existingItem["6개월"] = item.intr_rate;
@@ -74,8 +73,6 @@ export const useDataStore = defineStore('data', () => {
       return acc;
   }, []);
   depositDatas.value = transformedData;
-    // vuetify_datas.push(transformedData)
-    // console.log(vuetify_datas)
   })
   .catch(err =>
     console.log(err)
@@ -91,7 +88,7 @@ export const useDataStore = defineStore('data', () => {
     .then(res => {
    
       const transformedData = res.data.reduce((acc, item) => {
-        const existingItem = acc.find(i => i.금융회사명 === item.saving_product.kor_co_nm);
+        const existingItem = acc.find(i => i.상품명 === item.saving_product.fin_prdt_nm);
         if (existingItem) {
             if (item.save_trm === 6) {
                 existingItem["6개월"] = item.intr_rate;

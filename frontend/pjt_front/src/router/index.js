@@ -11,6 +11,7 @@ import CreateView from '@/views/board/CreateView.vue'
 import DetailView from '@/views/board/DetailView.vue'
 import UpdateView from '@/views/board/CreateView.vue'
 
+import MapView from '@/views/map/MapView.vue'
 import SearchProductView from '@/views/finantial-data/SearchProductView.vue'
 
 import ProductRecommendDeposit from '@/views/finantial-data/ProductRecommendDepositView.vue'
@@ -49,6 +50,11 @@ const router = createRouter({
       path: '/changepassword/',
       name: 'changepassword',
       component: ChangePasswordView
+    },
+    {
+      path: '/map/',
+      name: 'map',
+      component: MapView
     },
     {
       path: '/SearchProductView/',

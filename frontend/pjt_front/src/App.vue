@@ -87,6 +87,9 @@ const goMyProfile = function () {
             <li>
               <RouterLink :to="{ name: 'board' }" class="nav-link" style="color: black;">게시판</RouterLink>
             </li>
+            <li>
+              <RouterLink :to="{ name: 'map' }" class="nav-link" style="color: black;">지도</RouterLink>
+            </li>
           </ul>
         </v-list-item>
       </v-list>
