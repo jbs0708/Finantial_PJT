@@ -18,7 +18,7 @@
                   </div>
                   <div class="mb-3">
                       <label for="nickname" class="form-label">닉네임 :</label>
-                      <input type="text" id="nickname" class="form-control" v-model="nickname" style="width: 70%;">
+                      <input type="text" id="nickname" class="form-control" v-model="nickname" style="width: 70%;" >
                   </div>
                   <div class="mb-3">
                       <label for="birthday" class="form-label">생년월일 :</label>
@@ -49,7 +49,7 @@
                       </select>
                   </div>
                   <div class="mb-3">
-                      <label for="period" class="form-label">유치기간 :</label>
+                      <label for="period" class="form-label">희망 유치기간 :</label>
                       <select name="period" id="period" class="form-select" v-model="period" style="width: 70%;">
                           <option disabled value="">다음 중 하나를 선택하세요</option>
                           <option :value="pr" v-for="pr in periodList">{{ pr }}</option>

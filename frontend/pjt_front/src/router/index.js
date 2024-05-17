@@ -67,6 +67,31 @@ const router = createRouter({
       name: 'ProductSavingDetailView',
       component: ProductSavingDetailView
     },
+    {
+      path: '/myprofile/',
+      name: 'myprofile',
+      component: MyProfileView
+    },
+    {
+      path: '/board/',
+      name: 'board',
+      component: ArticleView
+    },
+    {
+      path: '/create',
+      name: 'CreateView',
+      component: CreateView
+    },
+    {
+      path: '/articles/:id',
+      name: 'DetailView',
+      component: DetailView
+    },
+    {
+      path: '/articles/:id',
+      name: 'UpdateView',
+      component: CreateView
+    }
   ]
 })
 
