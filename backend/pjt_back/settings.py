@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'compare_deposit',
     'accounts',
     'mainpage',
+    'boards',
     'rest_framework',
     'rest_framework.authtoken',
     'dj_rest_auth',
