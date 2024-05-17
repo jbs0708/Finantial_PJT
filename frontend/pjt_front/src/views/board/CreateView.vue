@@ -70,7 +70,6 @@ const updateArticle = function () {
         }
     })
     .then((response) => {
-        console.log('게시글 수정 완료')
         router.push({name: 'DetailView'})
     })
     .catch((error) => {
@@ -85,7 +84,6 @@ const handleSubmit = function () {
       updateArticle()
     }
 }
-
 
 
 if (route.name === 'UpdateView') {

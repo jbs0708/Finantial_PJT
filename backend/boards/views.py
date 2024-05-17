@@ -16,7 +16,8 @@ from .models import Article
 @permission_classes([IsAuthenticated]) 
 def article_list(request):
     if request.method == 'GET':
-        articles = get_list_or_404(Article)
+        # articles = get_list_or_404(Article)
+        articles = Article.objects.all()
         serializer = ArticleListSerializer(articles, many=True)
         return Response(serializer.data)
 
@@ -57,23 +58,13 @@ def comment_create(request, article_pk):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
     
-@api_view(['GET', 'DELETE', 'PUT'])
+@api_view(['DELETE'])
 @permission_classes([IsAuthenticated])
 def comment_detail(request, article_pk, comment_pk):
     article = get_object_or_404(Article, pk=article_pk)
-    comment = get_object_or_404(article.comment_set.all(), pk=comment_pk)
+    # comment = get_object_or_404(article.comment_set.all(), pk=comment_pk)
+    comment = article.comment.get(pk=comment_pk)
     
-    if request.method == 'GET':
-        serializer = CommentSerializer(comment)
-        return Response(serializer.data)
-    
-    elif request.method == "DELETE":
+    if request.method == "DELETE":
         comment.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-    
-    elif request.method == "PUT":
-        serializer = CommentSerializer(comment, data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        

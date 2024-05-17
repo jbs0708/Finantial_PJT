@@ -8,6 +8,8 @@ import { userCheckStore } from '@/stores/usercheck'
 export const useBoardStore = defineStore('board', () => {
   const userCheck = userCheckStore()
   const articles = ref([])
+  const articleDetail = ref(null)
+  const articleId = ref(null)
   const API_URL = 'http://127.0.0.1:8000'
 
   const getArticles = function () {
@@ -20,6 +22,8 @@ export const useBoardStore = defineStore('board', () => {
     })
       .then(response => {
         articles.value = response.data
+        articleId.value = response.data[0].id
+        console.log(response.data)
       })
       .catch(error => {
         console.log(error)
@@ -34,5 +38,5 @@ export const useBoardStore = defineStore('board', () => {
     }
   })
 
-  return { articles, API_URL, getArticles, isLogin }
+  return { articles, API_URL, getArticles, isLogin, articleDetail, articleId }
 }, { persist: true })

@@ -2,7 +2,8 @@
   <div>
     <h1>DetailView</h1>
     <div v-if="article">
-      <p>{{ article.id }}번 게시글 | 작성자: {{ article.nickname ? article.nickname : "무명 사용자" }} | <span v-if="article.created_at != article.updated_at">(수정됨)</span></p>
+      <h2>{{ article.id }}번 게시글</h2>
+      <p>작성자: {{ article.nickname ? article.nickname : "무명 사용자" }}<span v-if="article.created_at != article.updated_at">| (수정됨)</span></p>
       <p>제목 : {{ article.title }}</p>
       <p>내용 : {{ article.content }}</p>
       <p>작성시간 : {{ formatDate(article.created_at) }}</p>
@@ -15,12 +16,14 @@
       </span>
     </div>
     <hr>
-    <!-- <CreateComment article-id="article.value.id" />
-    <ul>
-      <li>
-        <Comment v-for="comment in comments" :key="comment ? comment.id : null"/>
-      </li>
-    </ul> -->
+    <div>
+      <h2>댓글</h2>
+      <CreateComment @create-comment="getBoardDetail(articleId)"/>
+      <hr>
+      <Comment v-for="comment in comments" :key="comment ? comment.id : null" :comment-Info="comment" @delete-comment="getBoardDetail(articleId)" />
+      <!-- <Comment :comment-Info="comments" /> -->
+    </div>
+
   </div>
 </template>
 
@@ -28,17 +31,19 @@
 import axios from 'axios'
 import { onMounted, ref } from 'vue'
 import { useBoardStore } from '@/stores/board'
-import { userCheckStore } from '@/stores/usercheck';
+import { userCheckStore } from '@/stores/usercheck'
 import { useRoute, useRouter } from 'vue-router'
 
-import CreateComment from '@/components/CreateComment.vue';
-// import Comment from '@/components/Comment.vue';
+import CreateComment from '@/components/CreateComment.vue'
+import Comment from '@/components/Comment.vue'
 
 const store = useBoardStore()
 const userCheck = userCheckStore()
 const route = useRoute()
 const article = ref(null)
 const router = useRouter()
+const comments = ref(null)
+const articleId = route.params.id
 
 const goArticle = function () {
   router.push({ name: 'board' })
@@ -68,6 +73,7 @@ const updateArticle = function () {
 }
 
 onMounted(() => {
+  getBoardDetail(articleId),
   axios({
     method: 'get',
     url: `${store.API_URL}/api/v1/boards/article_detail/${route.params.id}/`,
@@ -77,7 +83,6 @@ onMounted(() => {
   })
     .then((response) => {
       article.value = response.data
-      console.log(article.value.id)
     })
     .catch((error) => {
       console.log(error)
@@ -95,6 +100,29 @@ const formatDate = function (dateInfo) {
     // Form the desired date string
     const formattedDate = year + '-' + month + '-' + day + ' ' + hours + ':' + minutes
     return formattedDate
+}
+
+const getBoardDetail = function (articleId) {
+    if (userCheck.userId == null) {
+        router.push({name: 'login'})
+    }
+    axios({
+        method: 'get',
+        url: `${userCheck.API_URL}/api/v1/boards/article_detail/${articleId}/`,
+        headers: {
+          Authorization: `Token ${userCheck.token}`
+        }
+    })
+    .then((res) => {
+        // console.log('상세 게시글 불러오기')
+        // console.log(res.data)
+        article.value = res.data
+        comments.value = res.data.comment
+        store.articleDetail = res.data
+    })
+    .catch((err) => {
+        console.log(err)
+    })
 }
 
 

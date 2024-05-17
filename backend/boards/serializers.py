@@ -14,7 +14,19 @@ class ArticleListSerializer(serializers.ModelSerializer):
         fields = ('id', 'title', 'content', 'nickname', 'created_at')
 
 
+class CommentSerializer(serializers.ModelSerializer):
+    nickname = serializers.CharField(source='user.detailuser.nickname', read_only=True)
+    userId = serializers.CharField(source='user.username', read_only=True)
+    
+    class Meta:
+        model = Comment
+        fields = '__all__'
+        read_only_fields = ('article', 'user')
+
+
 class ArticleSerializer(serializers.ModelSerializer):
+    comment = CommentSerializer(many=True, read_only=True)
+    comment_count = serializers.IntegerField(source='comment.count', read_only=True)
     nickname = serializers.CharField(source='user.detailuser.nickname', read_only=True)
     userId = serializers.CharField(source='user.username', read_only=True)
     
@@ -22,9 +34,3 @@ class ArticleSerializer(serializers.ModelSerializer):
         model = Article
         fields = '__all__'
         read_only_fields = ('user',)
-
-class CommentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Comment
-        fields = '__all__'
-        read_only_fields = ('article', 'user')

@@ -7,7 +7,7 @@
           <h1>{{ username }}님의 프로필</h1>
             <div>
               <div>
-                <v-btn type="submit">상세정보 수정</v-btn> | 
+                <v-btn @click="goDetail">상세정보 수정</v-btn> | 
                 <v-btn @click="store.withdraw">회원 탈퇴</v-btn>
               </div>
               <hr>
@@ -94,6 +94,10 @@ const period = ref(null)
 
 const goChangePassword = function (pk) {
     router.push({ name: 'changepassword' })
+}
+
+const goDetail = function () {
+    router.push({name: 'userdetail'})
 }
 
 const periodList = [
