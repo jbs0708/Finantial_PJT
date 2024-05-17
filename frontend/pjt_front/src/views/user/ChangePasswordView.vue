@@ -20,7 +20,7 @@
             </div>
           </div>
           <div class="text-center">
-            <button type="submit" class="btn btn-primary">변경</button>
+            <v-btn type="submit" class="btn btn-primary">변경</v-btn>
           </div>
         </form>
       </div>

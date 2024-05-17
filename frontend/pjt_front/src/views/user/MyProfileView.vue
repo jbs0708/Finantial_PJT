@@ -7,8 +7,8 @@
           <h1>{{ username }}님의 프로필</h1>
             <div>
               <div>
-                <button type="submit">상세정보 수정</button> | 
-                <button @click="store.withdraw">회원 탈퇴</button>
+                <v-btn type="submit">상세정보 수정</v-btn> | 
+                <v-btn @click="store.withdraw">회원 탈퇴</v-btn>
               </div>
               <hr>
               <h3>{{ username }}님의 상세정보</h3>

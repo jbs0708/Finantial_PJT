@@ -13,7 +13,7 @@
             <input type="password" class="form-control" v-model.trim="password">
           </div>
           <div class="text-center">
-            <button type="submit" class="btn btn-primary">Login</button>
+            <v-btn type="submit" class="btn btn-primary">Login</v-btn>
           </div>
         </form>
       </div>

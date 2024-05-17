@@ -19,6 +19,8 @@ export const userCheckStore = defineStore('usercheck', () => {
 
   const userId = ref(null)
   const router = useRouter()
+  const userEmail = ref(null)
+  const userInfo = ref(null)
 
   const signUp = function (payload) {
     // 구조 분해할당

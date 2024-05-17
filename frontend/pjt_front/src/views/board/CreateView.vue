@@ -10,8 +10,10 @@
         <label for="content">내용 : </label>
         <textarea v-model.trim="content" id="content"></textarea>
       </div>
-      <input v-if="isCreate" type="submit" value="생성">
-      <input v-else type="submit" value="수정">
+      <v-btn>
+        <input v-if="isCreate" type="submit" value="생성">
+        <input v-else type="submit" value="수정">
+      </v-btn> 
     </form>
   </div>
 </template>

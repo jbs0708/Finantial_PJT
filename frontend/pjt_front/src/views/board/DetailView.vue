@@ -9,9 +9,9 @@
       <p v-if="article.created_at != article.updated_at">
         수정시간 : {{ formatDate(article.updated_at) }}
       </p>
-      <span><button @click="goArticle">게시판으로 돌아가기</button></span>
+      <span><v-btn @click="goArticle">게시판으로 돌아가기</v-btn></span>
       <span v-if="article.userId === userCheck.userId">
-        | <button @click="updateArticle">수정하기</button> | <button @click="deleteArticle">삭제</button>
+        | <v-btn @click="updateArticle">수정하기</v-btn> | <v-btn @click="deleteArticle">삭제</v-btn>
       </span>
     </div>
     <hr>

@@ -8,7 +8,7 @@
           <form @submit.prevent="updateDetail">
               <div class="d-flex justify-content-between align-items-center">
                   <span>ID: {{ username }}</span>
-                  <button @click="goChangePassword" class="btn btn-primary">비밀번호 수정</button>
+                  <v-btn @click="goChangePassword" class="btn btn-primary">비밀번호 수정</v-btn>
               </div>
               <hr>
               <div class="container sort">
@@ -56,11 +56,11 @@
                       </select>
                   </div>
               </div>
-              <div class="d-flex justify-content-center">
-                  <button type="submit" class="btn btn-primary text-center col-2">수정</button>
+              <div>
+                <v-btn type="submit">수정</v-btn>
               </div>
-              <div class="d-flex justify-content-center">
-                  <button @click="store.withdraw" class="btn btn-danger">회원 탈퇴</button>
+              <div>
+                  <v-btn @click="store.withdraw" class="btn btn-danger">회원 탈퇴</v-btn>
               </div>
           </form>
       </div>
@@ -158,6 +158,7 @@ const updateDetail = function () {
       .then((res) => {
           console.log('프로필 수정 완료')
           window.alert('개인정보 수정이 완료되었습니다.')
+          router.push({ name: 'home' })
       })
       .catch((err) => {
           console.log(err)

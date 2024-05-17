@@ -8,7 +8,7 @@
             <label for="username" class="form-label">아이디:</label>
             <div class="row">
               <input type="text" id="username" class="form-control col-9" v-model.trim="username">
-              <button type="button" class="btn btn-secondary btn-sm col-3" @click="checkUserID">중복체크</button>
+              <v-btn type="v-btn" class="btn btn-secondary btn-sm col-3" @click="checkUserID">중복체크</v-btn>
             </div>
             <p :class="{ 'text-danger': !isPassCheckId, primary: isPassCheckId }">{{ checkMsg }}</p>
           </div>
@@ -28,7 +28,7 @@
             <input type="text" id="email" class="form-control" v-model.trim="email">
           </div>
           <div class="text-center">
-            <button type="submit" class="btn btn-primary">SignUp</button>
+            <v-btn type="submit" class="btn btn-primary">SignUp</v-btn>
           </div>
         </form>
       </div>
