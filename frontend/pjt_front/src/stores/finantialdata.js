@@ -4,7 +4,9 @@ import axios from 'axios'
 
 export const useDataStore = defineStore('data', () => {
 
-  const datas = ref([])
+  const depositDatas = ref([])
+  const savingDatas = ref([])
+
   // const vuetify_datas = []
   const API_URL = 'http://127.0.0.1:8000'
   const saveDatas = function () {
@@ -71,7 +73,7 @@ export const useDataStore = defineStore('data', () => {
       }
       return acc;
   }, []);
-    datas.value = transformedData;
+  depositDatas.value = transformedData;
     // vuetify_datas.push(transformedData)
     // console.log(vuetify_datas)
   })
@@ -120,12 +122,12 @@ export const useDataStore = defineStore('data', () => {
         }
         return acc;
     }, []);
-      datas.value = transformedData;
+    savingDatas.value = transformedData;
     })
     .catch(err =>
       console.log(err)
     )
     }
 
-  return { datas,API_URL,getDatas,getSavingDatas,saveDatas }
+  return { depositDatas,savingDatas,API_URL,getDatas,getSavingDatas,saveDatas }
 }, { persist: true })

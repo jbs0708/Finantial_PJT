@@ -14,6 +14,7 @@ import SearchProductView from '@/views/finantial-data/SearchProductView.vue'
 
 import ProductRecommendDeposit from '@/views/finantial-data/ProductRecommendDepositView.vue'
 
+import ProductDepositRecommendView from '@/views/finantial-data/ProductDepositRecommendView.vue'
 import ProductListDeposit from '@/views/finantial-data/ProductListDepositView.vue'
 import ProductListSaving from '@/views/finantial-data/ProductListSavingView.vue'
 import ProductDepositDetailView from '@/views/finantial-data/ProductDepositDetailView.vue'
@@ -97,6 +98,11 @@ const router = createRouter({
       path: '/articles/:id',
       name: 'DetailView',
       component: DetailView
+    },
+    {
+      path: '/ProductDepositRecommendView/:selectedCompany/',
+      name: 'ProductDepositRecommendView',
+      component: ProductDepositRecommendView
     },
     {
       path: '/articles/:id',

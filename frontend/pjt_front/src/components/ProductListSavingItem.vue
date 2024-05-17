@@ -41,7 +41,7 @@ const FakeAPI = {
       setTimeout(() => {
         const start = (page - 1) * itemsPerPage
         const end = start + itemsPerPage
-        const items = store.datas.slice()
+        const items = store.savingDatas.slice()
         if (sortBy.length) {
           const sortKey = sortBy[0].key
           const sortOrder = sortBy[0].order
