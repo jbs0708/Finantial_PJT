@@ -19,7 +19,7 @@ const goMyProfile = function () {
 
 <template>
     <div>
-        메인페이지임ㅋㅋ
+        메인프로필?
     </div>
 </template>
 

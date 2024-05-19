@@ -24,4 +24,5 @@ urlpatterns = [
     path('accounts/', include('dj_rest_auth.urls')),
     path('compare_deposit/',include('compare_deposit.urls'),name='compare_deposit'),
     path('api/v1/boards/', include('boards.urls')),
+    path('api/v1/exchange_rate/', include('exchange_rate.urls')),
 ]

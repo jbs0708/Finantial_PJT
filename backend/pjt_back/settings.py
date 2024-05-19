@@ -25,6 +25,7 @@ environ.Env.read_env(
 )
 
 API_KEY=env('API_KEY')
+EXCHANGE_API_KEY=env('EXCHANGE_API_KEY')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'accounts',
     'mainpage',
     'boards',
+    'exchange_rate',
     'rest_framework',
     'rest_framework.authtoken',
     'dj_rest_auth',

@@ -48,5 +48,4 @@ class DetailUser(models.Model):
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES, null=True)
     asset = models.IntegerField(null=True)
     salary = models.IntegerField(null=True)
-    period = models.CharField(max_length=20, choices=PERIOD_CHOICE, null=True)
     bank = models.CharField(max_length=20, choices=BANK_CHOICES, null=True)
