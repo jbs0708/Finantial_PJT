@@ -1,26 +1,33 @@
 <template>
   <div>
     <div>
-      <v-autocomplete
-      v-model="selectedBank"
-      :items="bankOptions"
-      label="은행 선택"
-      clearable
-    ></v-autocomplete>
-      <input type="text" v-model="customBank" placeholder="직접 검색" @keyup.enter="searchCustomBank" />
-      <button @click="moveToCurrentLocation">현재 위치로 이동 및 은행 검색</button>
-    </div>
-    <div id="map"></div>
-    <div v-if="selectedPlace" class="detail-container">
-        <v-card>
-          <v-card-title>{{ selectedPlace.place_name }}</v-card-title>
-          <v-card-subtitle>{{ selectedPlace.road_address_name }}</v-card-subtitle>
-          <v-card-text>
-            <p><strong>전화번호:</strong> {{ selectedPlace.phone }}</p>
-            <p><strong>영업시간:</strong> {{ selectedPlace.opening_hours }}</p>
-          </v-card-text>
-        </v-card>
-      </div>
+          <v-autocomplete
+          v-model="selectedBank"
+          :items="bankOptions"
+          label="은행 선택"
+          clearable
+        ></v-autocomplete>
+          <input type="text" v-model="customBank" placeholder="직접 검색" @keyup.enter="searchCustomBank" />
+          <button @click="moveToCurrentLocation">현재 위치로 이동 및 은행 검색</button>
+        </div>
+    <v-row>
+      <v-col cols="9">
+        <div id="map"></div>
+      </v-col>
+      <v-col cols="3">
+        <div v-if="selectedPlace" class="detail-container">
+          <v-card>
+            <v-card-title>{{ selectedPlace.place_name }}</v-card-title>
+            <v-card-subtitle>{{ selectedPlace.road_address_name }}</v-card-subtitle>
+            <v-card-text>
+              <p><strong>전화번호:</strong> {{ selectedPlace.phone }}</p>
+              <p><strong>영업시간:</strong> {{ selectedPlace.opening_hours }}</p>
+            </v-card-text>
+          </v-card>
+        </div>
+      </v-col>
+    </v-row>
+  
   </div>
 </template>
 
