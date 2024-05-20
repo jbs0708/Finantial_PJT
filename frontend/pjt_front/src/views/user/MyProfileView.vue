@@ -57,14 +57,7 @@
             <h3>{{ username }}님이 쓴 게시글 목록</h3>
             <div class="sort">
               <div>
-                ~게시글 목록~
-              </div>
-            </div>
-            <hr>
-            <h3>{{ username }}님이 댓글을 남긴 게시글 목록</h3>
-            <div class="sort">
-              <div>
-                ~댓글 쓴 게시글 목록~   
+                <MyArticleList />
               </div>
             </div>
       </div>
@@ -76,11 +69,14 @@
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
 import { userCheckStore } from '@/stores/usercheck'
+import { useBoardStore } from '@/stores/board'
 import { useRouter } from 'vue-router'
+import MyArticleList from '@/components/MyArticleList.vue'
 
 const router = useRouter()
 
 const store = userCheckStore()
+const boardStore = useBoardStore()
 
 const username = ref(null)
 const email = ref(null)
@@ -140,7 +136,8 @@ const checkUser = function () {
 
 
 onMounted(() => {
-    checkUser()
+    checkUser(),
+    boardStore.getMyArticles()
 })
 
 const updateDetail = function () {

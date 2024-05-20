@@ -1,33 +1,33 @@
 <template>
-  <div v-if="!store.token" class="container">
+  <div v-if="!store.token">
       <h3>비로그인 사용자입니다.</h3>
   </div>
   <div v-else>
-      <div class="container mt-5">
+      <div>
           <h1>개인정보 수정</h1>
           <form @submit.prevent="updateDetail">
-              <div class="d-flex justify-content-between align-items-center">
+              <div>
                   <span>ID: {{ username }}</span>
-                  <v-btn @click="goChangePassword" class="btn btn-primary">비밀번호 수정</v-btn>
+                  <v-btn @click="goChangePassword">비밀번호 수정</v-btn>
               </div>
               <hr>
-              <div class="container sort">
-                  <div class="mb-3">
-                      <label for="email" class="form-label">E-Mail :</label>
-                      <input type="text" id="email" class="form-control" v-model="email" style="width: 70%;">
+              <div>
+                  <div>
+                      <label for="email">E-Mail :</label>
+                      <input type="text" id="email" v-model="email" style="width: 70%;">
                   </div>
                   <div class="mb-3">
-                      <label for="nickname" class="form-label">닉네임 :</label>
-                      <input type="text" id="nickname" class="form-control" v-model="nickname" style="width: 70%;" >
+                      <label for="nickname">닉네임 :</label>
+                      <input type="text" id="nickname" v-model="nickname" style="width: 70%;" >
                   </div>
                   <div class="mb-3">
-                      <label for="birthday" class="form-label">생년월일 :</label>
-                      <input type="text" id="birthday" class="form-control" placeholder="YYYYMMDD" v-model="birthday"
+                      <label for="birthday">생년월일 :</label>
+                      <input type="text" id="birthday" placeholder="YYYYMMDD" v-model="birthday"
                           style="width: 70%;">
                   </div>
                   <div class="mb-3">
-                      <label for="gender" class="form-label">성별 :</label>
-                      <select id="gender" class="form-select" v-model="gender" style="width: 70%;">
+                      <label for="gender">성별 :</label>
+                      <select id="gender" v-model="gender" style="width: 70%;">
                           <option disabled value="">다음 중 하나를 선택하세요</option>
                           <option>남성</option>
                           <option>여성</option>
@@ -35,22 +35,22 @@
                   </div>
                   <div class="mb-3">
                       <label for="asset" class="form-label">자산 :</label>
-                      <input type="text" id="asset" class="form-control" v-model="asset" style="width: 70%;">원
+                      <input type="text" id="asset" v-model="asset" style="width: 70%;">원
                   </div>
                   <div class="mb-3">
-                      <label for="salary" class="form-label">연봉 :</label>
-                      <input type="text" class="form-control" v-model="salary" style="width: 70%;">원
+                      <label for="salary">연봉 :</label>
+                      <input type="text" v-model="salary" style="width: 70%;">원
                   </div>
                   <div class="mb-3">
-                      <label for="bank" class="form-label">주거래은행 :</label>
-                      <select name="bank" id="bank" class="form-select" v-model="bank" style="width: 70%;">
+                      <label for="bank">주거래은행 :</label>
+                      <select name="bank" id="bank" v-model="bank" style="width: 70%;">
                           <option disabled value="">다음 중 하나를 선택하세요</option>
                           <option :value="bk" v-for="bk in bankList">{{ bk }}</option>
                       </select>
                   </div>
                   <div class="mb-3">
-                      <label for="period" class="form-label">희망 유치기간 :</label>
-                      <select name="period" id="period" class="form-select" v-model="period" style="width: 70%;">
+                      <label for="period">희망 유치기간 :</label>
+                      <select name="period" id="period" v-model="period" style="width: 70%;">
                           <option disabled value="">다음 중 하나를 선택하세요</option>
                           <option :value="pr" v-for="pr in periodList">{{ pr }}</option>
                       </select>
@@ -60,7 +60,7 @@
                 <v-btn type="submit">수정</v-btn>
               </div>
               <div>
-                  <v-btn @click="store.withdraw" class="btn btn-danger">회원 탈퇴</v-btn>
+                  <v-btn @click="store.withdraw">회원 탈퇴</v-btn>
               </div>
           </form>
       </div>

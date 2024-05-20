@@ -12,6 +12,7 @@ const toBeContinue = function () {
 
 const goHome = function () {
   router.push({ name: 'home' })
+  window.location.reload()
 }
 
 const goLogin = function () {
@@ -60,19 +61,19 @@ const goMyProfile = function () {
           <div v-if="userStore.token">
             <p><strong>{{ userStore.userId }}님</strong>, 안녕하세요</p>
             <div>
-                <div>
-                  <v-btn @click="goDetail">개인정보 수정</v-btn>
-                  <v-btn @click="goMyProfile">나의 프로필</v-btn>
-                </div>
+              <div>
+                <v-btn @click="goDetail">개인정보 수정</v-btn>
+                <v-btn @click="goMyProfile">나의 프로필</v-btn>
+              </div>
             </div>
-        </div>
-        <div v-else>
+          </div>
+          <div v-else>
             <div class="text-center">
-                <p>비로그인 상태입니다</p>
-                <v-btn @click="goLogin">로그인</v-btn> |  
-                <v-btn @click="goSignUp">회원가입</v-btn>
+              <p>비로그인 상태입니다</p>
+              <v-btn @click="goLogin">로그인</v-btn> |  
+              <v-btn @click="goSignUp">회원가입</v-btn>
             </div>
-        </div>
+          </div>
         </div>
       </v-sheet>
 

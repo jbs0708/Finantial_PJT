@@ -1,23 +1,29 @@
 <template>
-  <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-4">
-        <h1 class="mb-4">Login</h1>
-        <form @submit.prevent="logIn">
-          <div class="mb-3">
-            <label for="username" class="form-label">아이디:</label>
-            <input type="text" class="form-control" v-model.trim="username">
-          </div>
-          <div class="mb-3">
-            <label for="password" class="form-label">비밀번호:</label>
-            <input type="password" class="form-control" v-model.trim="password">
-          </div>
-          <div class="text-center">
-            <v-btn type="submit" class="btn btn-primary">Login</v-btn>
-          </div>
-        </form>
-      </div>
-    </div>
+  <div class="form-container sign-in-container mt-12">
+    <v-form>
+      <h1 class="pb-8 font-weight-bold">Login</h1>
+      <v-text-field
+        prepend-inner-icon="mdi-account"
+        placeholder="Username"
+        v-model.trim="username"
+      ></v-text-field>
+      <v-text-field
+        prepend-inner-icon="mdi-lock"
+        placeholder="Password"
+        type="password"
+        v-model.trim="password"
+      ></v-text-field>
+      <v-btn
+        color="info"
+        block
+        dark
+        tile
+        class="pa-6 font-weight-bold"
+        elevation="0"
+        @click="logIn()"
+        >Log In</v-btn
+      >
+    </v-form>
   </div>
 </template>
 
@@ -40,4 +46,27 @@ const logIn = function () {
 
 </script>
 
-<style></style>
+<style scoped>
+.sign-in-container {
+  left: 0;
+  width: 50%;
+  z-index: 2;
+}
+.team-img {
+  width: 50%;
+}
+
+.container.right-panel-active .sign-in-container {
+  transform: translateX(100%);
+}
+
+.container.right-panel-active .overlay-container {
+  transform: translateX(-100%);
+}
+.forgot-password-sm {
+  font-size: 12px;
+}
+.forgot-password-md {
+  font-size: 15px;
+}
+</style>

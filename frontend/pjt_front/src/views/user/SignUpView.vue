@@ -1,50 +1,99 @@
 <template>
-  <div class="container mt-5">
-    <div class="row justify-content-center">
-      <div class="col-md-4">
-        <h1 class="mb-4">Sign Up</h1>
+  <!-- <div>
+    <div>
+      <div>
+        <h1>Sign Up</h1>
         <form @submit.prevent="signUp">
-          <div class="mb-3">
-            <label for="username" class="form-label">아이디:</label>
-            <div class="row">
-              <input type="text" id="username" class="form-control col-9" v-model.trim="username">
-              <v-btn type="v-btn" class="btn btn-secondary btn-sm col-3" @click="checkUserID">중복체크</v-btn>
+          <div>
+            <label for="username">아이디:</label>
+            <div>
+              <input type="text" id="username" v-model.trim="username">
+              <v-btn @click="checkUserID">중복체크</v-btn> 
             </div>
             <p :class="{ 'text-danger': !isPassCheckId, primary: isPassCheckId }">{{ checkMsg }}</p>
           </div>
-          <div class="mb-3">
-            <label for="password1" class="form-label">비밀번호:</label>
-            <input type="password" id="password1" class="form-control" v-model.trim="password1">
+          <div>
+            <label for="password1">비밀번호:</label>
+            <input type="password" id="password1" v-model.trim="password1">
           </div>
           <div class="mb-3">
-            <label for="password2" class="form-label">비밀번호 확인:</label>
-            <input type="password" id="password2" class="form-control" v-model.trim="password2">
+            <label for="password2">비밀번호 확인:</label>
+            <input type="password" id="password2" v-model.trim="password2">
             <div v-if="password1 !== password2 && password2 !== null" class="text-danger">
               {{ warning }}
             </div>
           </div>
-          <div class="mb-3">
+          <div>
             <label for="email" class="form-label">이메일:</label>
-            <input type="text" id="email" class="form-control" v-model.trim="email">
+            <input type="text" id="email" v-model.trim="email">
           </div>
-          <div class="text-center">
-            <v-btn type="submit" class="btn btn-primary">SignUp</v-btn>
+          <div>
+            <v-btn type="submit">SignUp</v-btn>
           </div>
         </form>
       </div>
     </div>
+  </div> -->
+
+  <div class="form-container sign-up-container">
+    <v-form>
+      <h1 class="pb-12 font-weight-bold">Create Account</h1>
+      <v-row>
+        <v-col cols="9">
+          <v-text-field
+            placeholder="Username"
+            prepend-inner-icon="mdi-account"
+            v-model="username"
+          ></v-text-field>
+        </v-col>
+        <v-col cols="3" class="justify-center">
+          <v-btn @click="checkUserID" block style="height: 55px;">중복체크</v-btn>
+        </v-col>
+      </v-row>
+      <p :class="{ 'text-danger': !isPassCheckId, primary: isPassCheckId }">{{ checkMsg }}</p>
+      <v-text-field
+        placeholder="Password"
+        prepend-inner-icon="mdi-lock"
+        v-model="password1"
+        type="password"
+      ></v-text-field>
+      <v-text-field
+        placeholder="Password Confirm"
+        prepend-inner-icon="mdi-lock"
+        v-model="password2"
+        type="password"
+      ></v-text-field>
+      <div v-if="password1 !== password2 && password2 !== null" class="text-danger">
+        {{ warning }}
+      </div>
+      <v-text-field
+        placeholder="Email"
+        prepend-inner-icon="mdi-email"
+        v-model="email"
+      ></v-text-field>
+      <v-btn
+        color="info"
+        block
+        dark
+        tile
+        class="pa-6 font-weight-bold"
+        elevation="0"
+        @click="signUp()"
+        >Sign Up</v-btn>
+    </v-form>
   </div>
 </template>
 
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { userCheckStore } from '@/stores/usercheck'
 import axios from 'axios'
 
 const store = userCheckStore()
 
 const username = ref(null)
+const confirmedUsername = ref(null)
 const password1 = ref(null)
 const password2 = ref(null)
 const email = ref(null)
@@ -87,6 +136,7 @@ const checkUserID = function () {
       } else {
         isPassCheckId.value = true
         checkMsg.value = "사용할 수 있는 아이디입니다"
+        confirmedUsername.value = username.value
       }
     })
     .catch((err) => {
@@ -95,11 +145,32 @@ const checkUserID = function () {
   }
 }
 
+watch(username, () => {
+    if (username.value !== confirmedUsername.value) {
+      isPassCheckId.value = false
+      checkMsg.value = ''
+    }
+})
+
 </script>
 
 <style scoped>
-
 .primary {
   color: #00B992;
 }
+
+.text-danger {
+  color: red;
+}
+
+.sign-up-container {
+  left: 0;
+  width: 50%;
+
+}
+
+.team-img {
+  width: 50%;
+}
+
 </style>

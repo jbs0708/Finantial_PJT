@@ -30,6 +30,24 @@ export const useBoardStore = defineStore('board', () => {
       })
   }
 
+  const getMyArticles = function () {
+    axios({
+      method: 'get',
+      url: `${API_URL}/api/v1/boards/my_articles/`,
+      headers: {
+        Authorization: `Token ${userCheck.token}`
+      }
+    })
+      .then(response => {
+        articles.value = response.data
+        articleId.value = response.data[0].id
+        console.log(response.data)
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  }
+
   const isLogin = computed(() => {
     if (userCheck.token.value === null) {
       return false
@@ -38,5 +56,5 @@ export const useBoardStore = defineStore('board', () => {
     }
   })
 
-  return { articles, API_URL, getArticles, isLogin, articleDetail, articleId }
+  return { articles, API_URL, getArticles, isLogin, articleDetail, articleId, getMyArticles }
 }, { persist: true })

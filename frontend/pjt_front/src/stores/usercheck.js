@@ -39,7 +39,15 @@ export const userCheckStore = defineStore('usercheck', () => {
       })
       .catch((err) => {
         console.log(err)
-        window.alert("비밀번호가 너무 짧거나, 숫자로만 구성되어 있습니다. 비밀번호는 8글자 이상이며, 영문과 숫자가 섞여야 합니다.")
+        console.log(err.response.data.email[0])
+        // "Enter a valid email address."
+        if (email == null) {
+          window.alert('이메일을 입력해주세요.')
+        } else if (err.response.data.email[0] == "Enter a valid email address.") {
+          window.alert('이메일을 형식이 올바르지 않습니다.')
+        } else {
+          window.alert("비밀번호가 너무 짧거나, 숫자로만 구성되어 있습니다. 비밀번호는 8글자 이상이며, 영문과 숫자가 섞여야 합니다.")
+        }
       })
   }
 

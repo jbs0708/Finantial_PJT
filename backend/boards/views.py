@@ -68,3 +68,12 @@ def comment_detail(request, article_pk, comment_pk):
     if request.method == "DELETE":
         comment.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated]) 
+def my_article_list(request):
+    if request.method == 'GET':
+        articles = Article.objects.filter(user=request.user)
+        serializer = ArticleListSerializer(articles, many=True)
+        return Response(serializer.data)
