@@ -1,37 +1,41 @@
 <template>
   <div>
     <div>
-      <select v-model="selectedBank" @change="searchSelectedBank">
-        <option value="" disabled selected>은행 선택</option>
-        <option value="신한은행">신한은행</option>
-        <option value="국민은행">국민은행</option>
-        <option value="우리은행">우리은행</option>
-        <option value="하나은행">하나은행</option>
-        <option value="농협은행">농협은행</option>
-      </select>
+      <v-autocomplete
+      v-model="selectedBank"
+      :items="bankOptions"
+      label="은행 선택"
+      clearable
+    ></v-autocomplete>
       <input type="text" v-model="customBank" placeholder="직접 검색" @keyup.enter="searchCustomBank" />
       <button @click="moveToCurrentLocation">현재 위치로 이동 및 은행 검색</button>
     </div>
     <div id="map"></div>
-    <div v-if="selectedPlace">
-      <h3>{{ selectedPlace.place_name }}</h3>
-      <p><strong>주소:</strong> {{ selectedPlace.road_address_name }}</p>
-      <p><strong>전화번호:</strong> {{ selectedPlace.phone }}</p>
-      <p><strong>영업시간:</strong> {{ selectedPlace.opening_hours }}</p>
-    </div>
+    <div v-if="selectedPlace" class="detail-container">
+        <v-card>
+          <v-card-title>{{ selectedPlace.place_name }}</v-card-title>
+          <v-card-subtitle>{{ selectedPlace.road_address_name }}</v-card-subtitle>
+          <v-card-text>
+            <p><strong>전화번호:</strong> {{ selectedPlace.phone }}</p>
+            <p><strong>영업시간:</strong> {{ selectedPlace.opening_hours }}</p>
+          </v-card-text>
+        </v-card>
+      </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watchEffect  } from 'vue';
 
 const selectedBank = ref('');
 const customBank = ref('');
+const bankOptions = ['신한은행', '국민은행', '우리은행', '하나은행', '농협은행'];
 const mapKey = import.meta.env.VITE_KAKAOMAP_API_KEY;
 let map = null;
 let markers = [];
 let ps = null;
 let selectedMarker = null;
+let selectedInfoWindow = null;  // 선택된 인포윈도우 관리
 const selectedPlace = ref(null); // 선택된 장소 정보 저장
 
 const initMap = (lat, lon) => {
@@ -124,9 +128,14 @@ const moveToCurrentLocation = () => {
 const setLocation = (latlng) => {
   map.setCenter(latlng);
 
-  // 기존 마커 제거
+  // 기존 마커 및 인포윈도우 제거
   if (selectedMarker) {
     selectedMarker.setMap(null);
+    selectedMarker = null;
+  }
+  if (selectedInfoWindow) {
+    selectedInfoWindow.close();
+    selectedInfoWindow = null;
   }
 
   // 클릭 위치에 마커 추가
@@ -135,10 +144,10 @@ const setLocation = (latlng) => {
     position: latlng,
   });
 
-  const infowindow = new kakao.maps.InfoWindow({
+  selectedInfoWindow = new kakao.maps.InfoWindow({
     content: '<div style="padding:5px;font-size:12px;">선택한 위치</div>',
   });
-  infowindow.open(map, selectedMarker);
+  selectedInfoWindow.open(map, selectedMarker);
 
   // 선택한 위치 주변 은행 검색
   searchPlaces(latlng.getLat(), latlng.getLng(), selectedBank.value || customBank.value);
@@ -146,12 +155,18 @@ const setLocation = (latlng) => {
 
 const searchSelectedBank = () => {
   if (selectedMarker) {
-    // 선택한 위치에서 은행 검색
-    searchPlaces(selectedMarker.getPosition().getLat(), selectedMarker.getPosition().getLng(), selectedBank.value);
+    const banks = selectedBank.length > 0 ? selectedBank.join(',') : customBank.value;
+    console.log(banks);
+    searchPlaces(selectedMarker.getPosition().getLat(), selectedMarker.getPosition().getLng(), banks);
   } else {
     moveToCurrentLocation();
   }
 };
+
+
+watchEffect(() => {
+  searchSelectedBank();
+});
 
 const searchCustomBank = () => {
   if (selectedMarker) {
@@ -173,12 +188,12 @@ const fetchPlaceDetail = (place) => {
 
 onMounted(async () => {
   if (window.kakao && window.kakao.maps) {
-    initMap(37.566826, 126.9786567); // 초기 위치는 서울
+    initMap(35.1010816, 128.8503296); // 초기 위치는 35.1010816,128.8503296
   } else {
     const script = document.createElement('script');
     script.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${mapKey}&libraries=services`;
     document.head.appendChild(script);
-    script.onload = () => kakao.maps.load(() => initMap(37.566826, 126.9786567));
+    script.onload = () => kakao.maps.load(() => initMap(35.1010816, 128.8503296));
   }
 });
 </script>

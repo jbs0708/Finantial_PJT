@@ -1,3 +1,62 @@
+<!-- src/App.vue -->
+<template>
+  <v-app>
+    <v-app-bar color="primary">
+      <v-app-bar-nav-icon>
+        <v-icon icon="mdi-menu" />
+      </v-app-bar-nav-icon>
+      <v-app-bar-title>대표이름</v-app-bar-title>
+      <v-btn variant="text" prepend-icon="mdi-home" @click="goHome">HOME</v-btn>
+      <v-btn variant="text" prepend-icon="mdi-power" @click="goLogin">LOGIN</v-btn>
+      <v-btn variant="text" prepend-icon="" @click="userStore.logOut">LOGOUT</v-btn>
+      <v-btn variant="text" prepend-icon="" @click="goSignUp">SIGNUP</v-btn>
+    </v-app-bar>
+
+    <v-navigation-drawer permanent>
+      <v-sheet class="pa-4" color="grey-lighten-4">
+        <v-avatar class="mb-4" color="grey-darken-1" size="64"></v-avatar>
+        <div v-if="userStore.token">
+          <p><strong>{{ userStore.userId }}님</strong>, 안녕하세요</p>
+          <div>
+            <v-btn @click="goDetail">개인정보 수정</v-btn>
+            <v-btn @click="goMyProfile">나의 프로필</v-btn>
+          </div>
+        </div>
+        <div v-else>
+          <div class="text-center">
+            <p>비로그인 상태입니다</p>
+            <v-btn @click="goLogin">로그인</v-btn>
+            <v-btn @click="goSignUp">회원가입</v-btn>
+          </div>
+        </div>
+      </v-sheet>
+      <v-divider></v-divider>
+      <v-list>
+        <v-list-item title="예적금 상품 조회" :to="{ name: 'SearchProductView' }"></v-list-item>
+        <v-list-item title="게시판" :to="{ name: 'board' }"></v-list-item>
+        <v-list-item title="지도" :to="{ name: 'map' }"></v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-main class="d-flex align-center justify-center" style="min-height: 300px;">
+      <RouterView />
+    </v-main>
+
+    <v-footer class="bg-primary text-center d-flex flex-column" height="auto">
+      <div class="d-flex align-center justify-center py-1"> <!-- 수정된 부분 -->
+        <v-btn v-for="icon in icons" :key="icon" :icon="icon" class="mx-2" variant="text"></v-btn>
+      </div>
+      <div class="pt-1">
+        금융 프로젝트
+      </div>
+      <v-divider></v-divider>
+      <div class="pb-1">
+        {{ new Date().getFullYear() }} — <strong>Vuetify</strong>
+      </div>
+    </v-footer>
+  </v-app>
+</template>
+
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import { userCheckStore } from '@/stores/usercheck'
@@ -20,90 +79,37 @@ const goLogin = function () {
 }
 
 const goSignUp = function () {
-  router.push({ name:'signup' })
+  router.push({ name: 'signup' })
 }
 
 const goDetail = function () {
-    router.push({name: 'userdetail'})
+  router.push({ name: 'userdetail' })
 }
 
 const goMyProfile = function () {
-    router.push({name:'myprofile'})
+  router.push({ name: 'myprofile' })
 }
-
 </script>
 
-<template>
-    <v-layout class="rounded rounded-md">
-      <v-app-bar color="primary">
-      <v-app-bar-nav-icon color="primary">
-        <v-icon icon="mdi-menu" />
-      </v-app-bar-nav-icon>
-      <v-app-bar-title> 대표이름 </v-app-bar-title>
-      <v-btn variant="text" prepend-icon="mdi-home" @click="goHome">HOME</v-btn>
-      <v-btn variant="text" prepend-icon="mdi-power" @click="goLogin">LOGIN</v-btn>
-      <v-btn variant="text" prepend-icon="" @click="userStore.logOut">LOOUT</v-btn>
-      <v-btn variant="text" prepend-icon="" @click="goSignUp">SIGNUP</v-btn>
-    </v-app-bar>
-
-    <v-navigation-drawer permanent="">
-      <v-sheet
-        class="pa-4"
-        color="grey-lighten-4"
-      >
-        <v-avatar
-          class="mb-4"
-          color="grey-darken-1"
-          size="64"
-        ></v-avatar>
-
-        <div>
-          <div v-if="userStore.token">
-            <p><strong>{{ userStore.userId }}님</strong>, 안녕하세요</p>
-            <div>
-              <div>
-                <v-btn @click="goDetail">개인정보 수정</v-btn>
-                <v-btn @click="goMyProfile">나의 프로필</v-btn>
-              </div>
-            </div>
-          </div>
-          <div v-else>
-            <div class="text-center">
-              <p>비로그인 상태입니다</p>
-              <v-btn @click="goLogin">로그인</v-btn> |  
-              <v-btn @click="goSignUp">회원가입</v-btn>
-            </div>
-          </div>
-        </div>
-      </v-sheet>
-
-      <v-divider></v-divider>
-
-      <v-list>
-        <v-list-item>
-          <ul>
-            <li>
-              <RouterLink :to="{name: 'SearchProductView'}" class="nav-link" style="color: black;">예적금 상품 조회</RouterLink>
-            </li>
-            <li>
-              <RouterLink :to="{ name: 'board' }" class="nav-link" style="color: black;">게시판</RouterLink>
-            </li>
-            <li>
-              <RouterLink :to="{ name: 'map' }" class="nav-link" style="color: black;">지도</RouterLink>
-            </li>
-          </ul>
-        </v-list-item>
-      </v-list>
-    </v-navigation-drawer>
-
-
-    <v-main class="d-flex align-center justify-center" style="min-height: 300px;">
-      <RouterView />
-    </v-main>
-  </v-layout>
-
-</template>
-
 <style scoped>
+.nav-link {
+  color: black;
+}
 
+.v-footer {
+  padding: 10px;
+}
 </style>
+
+<script>
+export default {
+  data: () => ({
+    icons: [
+      'mdi-facebook',
+      'mdi-twitter',
+      'mdi-linkedin',
+      'mdi-instagram',
+    ],
+  }),
+}
+</script>
