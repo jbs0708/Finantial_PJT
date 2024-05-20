@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ filteredProducts }}
     <div v-for="product in filteredProducts" :key="product.id" @click="selectProduct(product)">
       <!-- Display product details here -->
       <div>

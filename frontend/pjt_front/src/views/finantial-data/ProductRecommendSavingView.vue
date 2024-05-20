@@ -37,7 +37,7 @@ const router = useRouter()
 
 // 로컬 스토리지에서 데이터 불러오기
 const loadCompanies = () => {
-  const data = store.depositDatas
+  const data = store.savingDatas
   if (data) {
     try {
       // 중복된 값을 제거하여 고유한 회사명 리스트 생성
@@ -56,7 +56,7 @@ const recommendProduct = function (selectedCompany) {
     alert('금융회사명을 선택해주세요')
     return
   }
-  router.push({ name: 'ProductDepositRecommendView', params: { selectedCompany: selectedCompany } })
+  router.push({ name: 'ProductSavingRecommendView', params: { selectedCompany: selectedCompany } })
 }
 </script>
 

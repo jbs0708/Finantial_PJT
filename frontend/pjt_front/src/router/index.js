@@ -15,8 +15,10 @@ import MapView from '@/views/map/MapView.vue'
 import SearchProductView from '@/views/finantial-data/SearchProductView.vue'
 
 import ProductRecommendDeposit from '@/views/finantial-data/ProductRecommendDepositView.vue'
+import ProductRecommendSaving from '@/views/finantial-data/ProductRecommendSavingView.vue'
 
 import ProductDepositRecommendView from '@/views/finantial-data/ProductDepositRecommendView.vue'
+import ProductSavingRecommendView from '@/views/finantial-data/ProductSavingRecommendView.vue'
 import ProductListDeposit from '@/views/finantial-data/ProductListDepositView.vue'
 import ProductListSaving from '@/views/finantial-data/ProductListSavingView.vue'
 import ProductDepositDetailView from '@/views/finantial-data/ProductDepositDetailView.vue'
@@ -72,6 +74,11 @@ const router = createRouter({
       component: ProductRecommendDeposit
     },
     {
+      path: '/ProductRecommendSaving/',
+      name: 'ProductRecommendSaving',
+      component: ProductRecommendSaving
+    },
+    {
       path: '/ProductListSaving/',
       name: 'ProductListSaving',
       component: ProductListSaving
@@ -110,6 +117,11 @@ const router = createRouter({
       path: '/ProductDepositRecommendView/:selectedCompany/',
       name: 'ProductDepositRecommendView',
       component: ProductDepositRecommendView
+    },
+    {
+      path: '/ProductSavingRecommendView/:selectedCompany/',
+      name: 'ProductSavingRecommendView',
+      component: ProductSavingRecommendView
     },
     {
       path: '/articles/:id',

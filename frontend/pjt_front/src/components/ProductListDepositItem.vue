@@ -7,7 +7,7 @@
       :items="serverItems"
       :items-length="totalItems"
       :loading="loading"
-      item-value="금융회사명"
+      item-value="상품명"
       @update:options="loadItems"
       :expanded.sync="expanded"
       show-expand
@@ -15,7 +15,7 @@
       <template v-slot:expanded-row="{ columns, item }">
         <tr>
           <td :colspan="columns.length">
-            <div @click="showDetail(item.fin_prdt_cd)">[ {{ item.금융회사명 }} {{ item.상품명 }} 상세 정보]</div>
+            <v-btn @click="showDetail(item.fin_prdt_cd)"> {{ item.금융회사명 }} {{ item.상품명 }} 상세 정보</v-btn>
           </td>
         </tr>
       </template>
@@ -25,7 +25,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter,RouterLink } from 'vue-router'
 import { useDataStore } from '@/stores/finantialdata'
 
 const store = useDataStore()
