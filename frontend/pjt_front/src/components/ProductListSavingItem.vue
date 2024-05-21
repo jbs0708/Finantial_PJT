@@ -7,7 +7,7 @@
       :items="serverItems"
       :items-length="totalItems"
       :loading="loading"
-      item-value="금융회사명"
+      item-value="상품명"
       @update:options="loadItems"
       :expanded.sync="expanded"
       show-expand
@@ -15,7 +15,11 @@
     <template v-slot:expanded-row="{ columns, item }">
         <tr>
           <td :colspan="columns.length">
-            <div @click="showDetail(item.fin_prdt_cd)">[ {{ item.금융회사명 }} {{ item.상품명 }} 상세 정보]</div>
+            <div class="d-flex justify-end">
+              <v-btn @click="showDetail(item.fin_prdt_cd)">
+                {{ item.금융회사명 }} {{ item.상품명 }} 상세 정보
+              </v-btn>
+            </div>
           </td>
         </tr>
       </template>

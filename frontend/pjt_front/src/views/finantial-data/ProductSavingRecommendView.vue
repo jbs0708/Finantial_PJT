@@ -5,8 +5,8 @@
         <v-card-title class="d-flex justify-center" :style="{ fontSize: '30px' }">{{company}} 추천상품</v-card-title>
         <v-card variant="outlined" :style="{ width: '1000px' }">
           <template #text>
-            <!-- 개월 수의 데이터 값이 높은 순으로 정렬하여 ProductCardRecommendDeposit에 전달 -->
-            <ProductCardRecommendDeposit :filteredProducts="sortedProducts" @productSelected="handleProductSelected" />
+            <!-- 개월 수의 데이터 값이 높은 순으로 정렬하여 ProductCardRecommendSaving에 전달 -->
+            <ProductCardRecommendSaving :filteredProducts="sortedProducts" @productSelected="handleProductSelected" />
           </template>
         </v-card>
       </v-col>
@@ -14,8 +14,8 @@
         <v-card-title class="d-flex justify-center" :style="{ fontSize: '30px' }">추천상품 (상위 5개)</v-card-title>
         <v-card variant="outlined" style="width:1000px">
           <template #text>
-            <!-- 개월 수의 데이터 값이 높은 순으로 정렬하여 ProductCardRecommendDeposit에 전달 -->
-            <ProductCardRecommendDeposit :filteredProducts="top5Products" @productSelected="handleProductSelected" />
+            <!-- 개월 수의 데이터 값이 높은 순으로 정렬하여 ProductCardRecommendSaving에 전달 -->
+            <ProductCardRecommendSaving :filteredProducts="top5Products" @productSelected="handleProductSelected" />
           </template>
         </v-card>
       </v-col>
@@ -27,7 +27,7 @@
 import { ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useDataStore } from '@/stores/finantialdata'
-import ProductCardRecommendDeposit from '@/components/ProductCardRecommendDeposit.vue'
+import ProductCardRecommendSaving from '@/components/ProductCardRecommendSaving.vue'
 
 const store = useDataStore()
 const route = useRoute()
@@ -37,7 +37,7 @@ const filteredProducts = ref([])
 const selectedProductText = ref([])
 
 onMounted(() => {
-  const datas = store.depositDatas
+  const datas = store.savingDatas
   filteredProducts.value = datas.filter(product => product.금융회사명 === company)
 })
 
@@ -52,7 +52,7 @@ const sortedProducts = computed(() => {
 
 // 개월 수의 데이터 값이 높은 순으로 정렬된 배열에서 상위 5개의 제품 선택
 const top5Products = computed(() => {
-  return store.depositDatas.slice().sort((a, b) => {
+  return store.savingDatas.slice().sort((a, b) => {
     const aMax = Math.max(a["6개월"] || 0, a["12개월"] || 0, a["24개월"] || 0, a["36개월"] || 0)
     const bMax = Math.max(b["6개월"] || 0, b["12개월"] || 0, b["24개월"] || 0, b["36개월"] || 0)
     return bMax - aMax
@@ -65,5 +65,5 @@ const handleProductSelected = (product) => {
 </script>
 
 <style scoped>
-
+/* Add your styles here */
 </style>
