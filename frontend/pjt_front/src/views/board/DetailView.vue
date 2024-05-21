@@ -1,20 +1,23 @@
 <template>
   <div>
-    <h1>DetailView</h1>
     <div v-if="article">
-      <h2>{{ article.id }}번 게시글</h2>
-      <p>작성자: {{ article.nickname ? article.nickname : "무명 사용자" }}<span v-if="article.created_at != article.updated_at">| (수정됨)</span></p>
-      <p>제목 : {{ article.title }}</p>
-      <p>내용 : {{ article.content }}</p>
-      <p>작성시간 : {{ formatDate(article.created_at) }}</p>
-      <p v-if="article.created_at != article.updated_at">
-        수정시간 : {{ formatDate(article.updated_at) }}
-      </p>
-      <span><v-btn @click="goArticle">게시판으로 돌아가기</v-btn></span>
-      <span v-if="article.userId === userCheck.userId">
-        | <v-btn @click="updateArticle">수정하기</v-btn> | <v-btn @click="deleteArticle">삭제</v-btn>
-      </span>
+      <h1>제목 : {{ article.title }}</h1>
+      <div><p class="text-h6">작성자: {{ article.nickname ? article.nickname : "Unknown" }}<span v-if="article.created_at != article.updated_at"> - (수정됨)</span></p></div>
+      <v-sheet border="info md" height="250px" width="100%" rounded>{{ article.content }}</v-sheet>
+      <div>
+        <p>작성시간 : {{ formatDate(article.created_at) }}</p>
+        <p v-if="article.created_at != article.updated_at">
+          수정시간 : {{ formatDate(article.updated_at) }}
+        </p>
+      </div>
     </div>
+      <hr>
+      <div>
+        <span><v-btn @click="goArticle">게시판으로 돌아가기</v-btn></span>
+        <span v-if="article.userId === userCheck.userId">
+          | <v-btn @click="updateArticle">수정하기</v-btn> | <v-btn @click="deleteArticle">삭제</v-btn>
+        </span>
+      </div>
     <hr>
     <div>
       <h2>댓글</h2>
@@ -29,7 +32,7 @@
 
 <script setup>
 import axios from 'axios'
-import { onMounted, ref } from 'vue'
+import { onMounted, onBeforeMount, ref } from 'vue'
 import { useBoardStore } from '@/stores/board'
 import { userCheckStore } from '@/stores/usercheck'
 import { useRoute, useRouter } from 'vue-router'
@@ -72,6 +75,23 @@ const updateArticle = function () {
   router.push({name: 'UpdateView'})
 }
 
+onBeforeMount(() => {
+  getBoardDetail(articleId),
+  axios({
+    method: 'get',
+    url: `${store.API_URL}/api/v1/boards/article_detail/${route.params.id}/`,
+    headers: {
+      Authorization: `Token ${userCheck.token}`
+    }
+  })
+    .then((response) => {
+      article.value = response.data
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+})
+
 onMounted(() => {
   getBoardDetail(articleId),
   axios({
@@ -88,6 +108,7 @@ onMounted(() => {
       console.log(error)
     })
 })
+
 
 const formatDate = function (dateInfo) {
     const date = new Date(dateInfo)
@@ -115,7 +136,7 @@ const getBoardDetail = function (articleId) {
     })
     .then((res) => {
         // console.log('상세 게시글 불러오기')
-        // console.log(res.data)
+        console.log(res.data)
         article.value = res.data
         comments.value = res.data.comment
         store.articleDetail = res.data
@@ -128,6 +149,9 @@ const getBoardDetail = function (articleId) {
 
 </script>
 
-<style>
+<style scoped>
+div {
+  margin: 10px;
+}
 
 </style>

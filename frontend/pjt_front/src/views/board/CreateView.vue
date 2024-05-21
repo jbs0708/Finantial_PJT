@@ -17,6 +17,7 @@
         id="content"
       ></v-textarea>
       <v-btn
+        v-if="isCreate"
         color="info"
         block
         dark
@@ -25,8 +26,18 @@
         elevation="0"
         @click="createArticle()"
         >
-        <span v-if="isCreate">게시글 작성</span>
-        <span v-else>게시글 수정</span>
+        <span>게시글 작성</span>
+      </v-btn>
+      <v-btn
+        v-else
+        color="info"
+        block
+        dark
+        tile
+        class="pa-6 font-weight-bold"
+        elevation="0"
+        @click="updateArticle()">
+        <span>게시글 수정</span>
         </v-btn
       >
     </v-form>

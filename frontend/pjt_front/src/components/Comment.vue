@@ -1,11 +1,19 @@
 <template>
   <div>
-    <div>
-      <div>{{ commentInfo.nickname ? commentInfo.nickname : "Unknown" }} - </div>
-      <div>{{ commentInfo.content }}</div>
-    </div>
-    <p>{{ formatDate(commentInfo.created_at) }}</p>
-    <v-btn v-if="commentInfo.userId === userStore.userId" @click="deleteComment">삭제</v-btn>
+    <v-row align="center">
+      <v-col>
+        <div>
+          <div><p class="text-h6">{{ commentInfo.nickname ? commentInfo.nickname : "Unknown" }}</p></div>
+
+          <div>{{ commentInfo.content }}</div>
+        </div>
+        <div class="spacer"></div>
+        <span>{{ formatDate(commentInfo.created_at) }}</span>
+      </v-col>
+      <v-col class="text-right" cols="auto">
+        <v-btn v-if="commentInfo.userId === userStore.userId" @click="deleteComment">삭제</v-btn>
+      </v-col>
+    </v-row>
     <hr>
   </div>
 </template>
@@ -59,6 +67,8 @@ const formatDate = function (dateInfo) {
 </script>
 
 <style scoped>
-
+.spacer {
+  height: 16px;
+}
 </style>
 

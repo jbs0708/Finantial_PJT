@@ -1,6 +1,6 @@
 <template>
   <div class="form-container sign-in-container mt-12">
-    <v-form>
+    <v-form @submit.prevent="logIn()">
       <h1 class="pb-8 font-weight-bold">Login</h1>
       <v-text-field
         prepend-inner-icon="mdi-account"
@@ -20,7 +20,7 @@
         tile
         class="pa-6 font-weight-bold"
         elevation="0"
-        @click="logIn()"
+        type="submit"
         >Log In</v-btn
       >
     </v-form>
