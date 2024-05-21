@@ -27,7 +27,6 @@ def deposit_product(request):
     response = requests.get(URL,params=params).json()
     baseLists = response['result']['baseList']
     optionLists = response['result']['optionList']
-
     for baseList in baseLists:
        if not DepositProducts.objects.filter(fin_prdt_cd=baseList.get('fin_prdt_cd')).exists():
             serializer = DepositProductsSerializer(data = baseList)
@@ -35,12 +34,13 @@ def deposit_product(request):
                 serializer.save()
 
     for optionList in optionLists:
-        deposit_product = DepositProducts.objects.get(fin_prdt_cd = optionList.get('fin_prdt_cd'))
+        if DepositOptions.objects.filter(fin_prdt_cd=optionList.get('fin_prdt_cd')).exists():
+            continue
+        deposit_product = DepositProducts.objects.get(fin_prdt_cd=optionList.get('fin_prdt_cd'))
         serializer = DepositOptionsSerializer(data=optionList)
         if serializer.is_valid(raise_exception=True):
             serializer.save(deposit_product=deposit_product)
 
-    # return JsonResponse({'response':response})
     return JsonResponse({'message':'okay'})
 
 # 예금 상품 조회
@@ -70,6 +70,8 @@ def saving_product(request):
                 serializer.save()
 
     for optionList in optionLists:
+        if SavingOptions.objects.filter(fin_prdt_cd=optionList.get('fin_prdt_cd')).exists():
+            continue
         saving_product = SavingProducts.objects.get(fin_prdt_cd = optionList.get('fin_prdt_cd'))
         serializer = SavingOptionsSerializer(data=optionList)
         if serializer.is_valid(raise_exception=True):

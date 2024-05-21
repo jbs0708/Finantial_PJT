@@ -46,8 +46,9 @@ const selectProduct = (product) => {
 }
 
 const showDetail = function (fin_prdt_cd) {
-  router.push({ name: 'ProductDepositDetailView', params: { fin_prdt_cd: fin_prdt_cd} })
+  router.push({ name: 'ProductSavingDetailView', params: { fin_prdt_cd: fin_prdt_cd} })
 }
+
 // 개월 수에서 가장 높은 값을 가져오는 함수
 const getMaxMonth = (product) => {
   const maxMonth = Math.max(product["6개월"] || 0, product["12개월"] || 0, product["24개월"] || 0, product["36개월"] || 0)
