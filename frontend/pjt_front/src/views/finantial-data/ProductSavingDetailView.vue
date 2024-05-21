@@ -3,7 +3,7 @@
     <v-container>
       <v-row justify="center">
         <v-col cols="12" md="8">
-          <v-card v-if="detail" class="mx-auto my-5" max-width="800">
+          <v-card v-if="detail" class="mx-auto my-5" width="100%">
             <v-card-title>
               <h2>{{ detail.fin_prdt_nm }} 상세정보</h2>
             </v-card-title>

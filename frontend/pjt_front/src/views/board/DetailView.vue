@@ -19,11 +19,15 @@
         </span>
       </div>
     <hr>
-    <div>
+    <div >
       <h2>댓글</h2>
-      <CreateComment @create-comment="getBoardDetail(articleId)"/>
+      <div class="spacer">
+        <CreateComment @create-comment="getBoardDetail(articleId)"/>
+      </div>
       <hr>
-      <Comment v-for="comment in comments" :key="comment ? comment.id : null" :comment-Info="comment" @delete-comment="getBoardDetail(articleId)" />
+      <div>
+        <Comment v-for="comment in comments" :key="comment ? comment.id : null" :comment-Info="comment" @delete-comment="getBoardDetail(articleId)" />
+      </div>
       <!-- <Comment :comment-Info="comments" /> -->
     </div>
 
@@ -152,6 +156,10 @@ const getBoardDetail = function (articleId) {
 <style scoped>
 div {
   margin: 10px;
+}
+
+.spacer {
+  margin: 30px;
 }
 
 </style>

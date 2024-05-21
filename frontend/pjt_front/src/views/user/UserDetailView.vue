@@ -79,7 +79,6 @@ const gender = ref(null)
 const asset = ref(null)
 const salary = ref(null)
 const bank = ref(null)
-const period = ref(null)
 
 const goChangePassword = function (pk) {
     router.push({ name: 'changepassword' })
@@ -110,7 +109,6 @@ const checkUser = function () {
             asset.value = res.data.asset
             salary.value = res.data.salary
             bank.value = res.data.bank
-            period.value = res.data.period
         })
         .catch((err) => {
             console.log(err)
@@ -133,7 +131,6 @@ const updateDetail = function () {
           birthday: birthday.value,
           asset: asset.value,
           salary: salary.value,
-          period: period.value,
           bank: bank.value,
           userId: store.userId,
           

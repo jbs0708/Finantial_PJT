@@ -1,8 +1,20 @@
 <template>
-  <div>
+  <div class="spacer">
     <form @submit.prevent="createComment">
-      <input type="text" id="comment" class="commentBox" v-model="comment" placeholder="댓글은 200자 이내로 남겨주세요." style="width: 30rem; height: 5rem;">
-      <v-btn type="submit" class="spacer">댓글 남기기</v-btn>
+      <v-row>
+        <v-col cols="auto" class="commentBoxContainer">
+          <input
+            type="text"
+            id="comment"
+            class="commentBox"
+            v-model="comment"
+            placeholder="댓글은 200자 이내로 남겨주세요."
+          >
+        </v-col>
+        <v-col cols="auto">
+          <v-btn type="submit" class="spacer">댓글 남기기</v-btn>
+        </v-col>
+      </v-row>
     </form>
   </div>
 </template>
@@ -59,12 +71,16 @@ watch(comment, () => {
 
 <style scoped>
 .commentBox {
-  width: 30rem;
+  width: 100%;
   height: 5rem;
   border: 1px solid lightblue;
   padding: 0.5rem;
   font-size: 1rem;
   box-sizing: border-box;
+}
+
+.commentBoxContainer {
+  flex: 1;
 }
 
 .commentBox:focus {

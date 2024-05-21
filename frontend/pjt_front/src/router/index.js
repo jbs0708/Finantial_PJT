@@ -9,7 +9,7 @@ import MyProfileView from '@/views/user/MyProfileView.vue'
 import ArticleView from '@/views/board/ArticleView.vue'
 import CreateView from '@/views/board/CreateView.vue'
 import DetailView from '@/views/board/DetailView.vue'
-import UpdateView from '@/views/board/CreateView.vue'
+
 
 import MapView from '@/views/map/MapView.vue'
 import SearchProductView from '@/views/finantial-data/SearchProductView.vue'

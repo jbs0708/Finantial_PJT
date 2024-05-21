@@ -19,7 +19,7 @@ export const userCheckStore = defineStore('usercheck', () => {
 
   const userId = ref(null)
   const router = useRouter()
-  const userInfo = ref(null)
+  const nickname = ref('')
 
   const signUp = function (payload) {
     // 구조 분해할당
@@ -51,21 +51,6 @@ export const userCheckStore = defineStore('usercheck', () => {
       })
   }
 
-  // const checkSuperUser = function () {
-  //   axios({
-  //     method: 'get',
-  //     url: `${API_URL}/api/v1/accounts/check_superuser/`,
-  //     headers: {
-  //         Authorization: `Token ${token.value}`
-  //     }
-  //   })
-  //   .then((res) => {
-  //     isSuperuser.value = res.data.is_superuser == 1 ? true : false
-  //   })
-  //   .catch((err) => {
-  //     console.log(err)
-  //   })
-  // }
 
   const logIn = function (payload) {
     const { username, password } = payload
@@ -153,5 +138,5 @@ export const userCheckStore = defineStore('usercheck', () => {
   }
 
   return { API_URL, signUp, logIn, token, isLogin, logOut, 
-    userId, withdraw, changePassword }
+    userId, withdraw, changePassword, nickname }
 }, { persist: true })

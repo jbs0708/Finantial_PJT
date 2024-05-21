@@ -44,7 +44,8 @@ class DetailUser(models.Model):
     ]
 
     nickname = models.CharField(max_length=20, null=True)
-    birthday = models.CharField(max_length=8, null=True, blank=True)
+    # birthday = models.CharField(max_length=8, null=True, blank=True)
+    birthday = models.DateField(null=True, blank=True)
     gender = models.CharField(max_length=10, choices=GENDER_CHOICES, null=True)
     asset = models.IntegerField(null=True)
     salary = models.IntegerField(null=True)
