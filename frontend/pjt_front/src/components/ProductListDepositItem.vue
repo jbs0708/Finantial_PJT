@@ -15,7 +15,11 @@
       <template v-slot:expanded-row="{ columns, item }">
         <tr>
           <td :colspan="columns.length">
-            <v-btn @click="showDetail(item.fin_prdt_cd)"> {{ item.금융회사명 }} {{ item.상품명 }} 상세 정보</v-btn>
+            <div class="d-flex justify-end">
+              <v-btn @click="showDetail(item.fin_prdt_cd)">
+                {{ item.금융회사명 }} {{ item.상품명 }} 상세 정보
+              </v-btn>
+            </div>
           </td>
         </tr>
       </template>

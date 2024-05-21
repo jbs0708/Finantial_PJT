@@ -1,22 +1,39 @@
 <template>
-  <div>
-    {{ filteredProducts }}
-    <div v-for="product in filteredProducts" :key="product.id" @click="selectProduct(product)">
-      <!-- Display product details here -->
-      <div>
-        <!-- 금융회사명과 상품명 -->
-        <p>{{ product.금융회사명 }}</p>
-        <p>{{ product.상품명 }}</p>
-        <!-- 개월수에서 가장 높은 값만 표시 -->
-        <p>최고 연이율: {{ getMaxMonth(product) }}</p>
-        <hr>
-      </div>
-    </div>
-  </div>
+  <v-table>
+    <thead>
+      <tr>
+        <th class="text-left">
+          금융회사명
+        </th>
+        <th class="text-left">
+          상품명
+        </th>
+        <th class="text-left">
+          최고 연이율
+        </th>
+        <th class="text-left">
+          상세 정보
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+      v-for="product in filteredProducts" :key="product.id" @click="selectProduct(product)"
+      >
+        <td>{{ product.금융회사명 }}</td>
+        <td>{{ product.상품명 }}</td>
+        <td>{{ getMaxMonth(product)  }}</td>
+        <td><v-btn @click="showDetail(product.fin_prdt_cd)">바로가기</v-btn></td>
+      </tr>
+    </tbody>
+  </v-table>
+
 </template>
 
 <script setup>
 import { defineProps, defineEmits } from 'vue'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 
 const props = defineProps({
   filteredProducts: Array
@@ -28,6 +45,9 @@ const selectProduct = (product) => {
   emit('productSelected', product)
 }
 
+const showDetail = function (fin_prdt_cd) {
+  router.push({ name: 'ProductDepositDetailView', params: { fin_prdt_cd: fin_prdt_cd} })
+}
 // 개월 수에서 가장 높은 값을 가져오는 함수
 const getMaxMonth = (product) => {
   const maxMonth = Math.max(product["6개월"] || 0, product["12개월"] || 0, product["24개월"] || 0, product["36개월"] || 0)

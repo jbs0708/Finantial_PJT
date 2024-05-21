@@ -11,25 +11,43 @@
     <v-window
       v-model="window"
       show-arrows="hover"
-      class="custom-window"
+      class="custom-window my-5"
     >
       <v-window-item
         v-for="(item, index) in items"
         :key="index"
+        :value="index"
       >
         <v-card
-          class="d-flex justify-center align-center"
+          class="mx-auto"
           height="200px"
           @click="navigateTo(item.route)"
           style="cursor: pointer;"
         >
-          <div class="text-center">
+          <v-card-text class="text-center">
             <div class="text-h2">{{ item.title }}</div>
-            <div class="text">{{ item.context }}</div>
-          </div>  
+          </v-card-text>
         </v-card>
       </v-window-item>
     </v-window>
+    <v-row justify="center" class="my-10">
+      <v-col
+        v-for="(item, index) in items"
+        :key="index"
+        cols="6"
+        md="3"
+      >
+        <v-btn
+          block
+          large
+          color="primary"
+          class="my-3"
+          @click="navigateTo(item.route)"
+        >
+          {{ item.title }}
+        </v-btn>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
