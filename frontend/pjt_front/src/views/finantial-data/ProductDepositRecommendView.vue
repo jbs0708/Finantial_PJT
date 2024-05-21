@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-row>
+    <v-row :style="{margin: '20px auto' }">
       <v-col cols="6">
         <v-card-title class="d-flex justify-center" :style="{ fontSize: '30px' }">{{company}} 추천상품</v-card-title>
-        <v-card variant="outlined" :style="{ width: '1000px' }">
+        <v-card variant="outlined" :style="{ width: '80%', margin: '20px auto' }">
           <template #text>
             <!-- 개월 수의 데이터 값이 높은 순으로 정렬하여 ProductCardRecommendDeposit에 전달 -->
             <ProductCardRecommendDeposit :filteredProducts="sortedProducts" @productSelected="handleProductSelected" />
@@ -12,7 +12,7 @@
       </v-col>
       <v-col cols="6">
         <v-card-title class="d-flex justify-center" :style="{ fontSize: '30px' }">추천상품 (상위 5개)</v-card-title>
-        <v-card variant="outlined" style="width:1000px">
+        <v-card variant="outlined" :style="{ width: '80%', margin: '20px auto' }">
           <template #text>
             <!-- 개월 수의 데이터 값이 높은 순으로 정렬하여 ProductCardRecommendDeposit에 전달 -->
             <ProductCardRecommendDeposit :filteredProducts="top5Products" @productSelected="handleProductSelected" />
