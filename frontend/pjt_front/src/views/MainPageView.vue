@@ -38,6 +38,8 @@
   </template>
   
   <script>
+  import ExchangeRateCalculator from '@/components/ExchangeRateCalculator.vue'
+
   export default {
     name: 'MainPage',
     methods: {

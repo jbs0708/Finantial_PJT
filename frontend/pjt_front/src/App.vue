@@ -12,6 +12,7 @@
       <v-btn variant="text" prepend-icon="" @click="goSignUp">SIGNUP</v-btn>
     </v-app-bar>
 
+    
     <v-navigation-drawer permanent>
       <v-sheet class="pa-4" color="grey-lighten-4">
         <v-avatar class="mb-4" color="grey-darken-1" size="64"></v-avatar>
@@ -60,9 +61,10 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import { userCheckStore } from '@/stores/usercheck'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 
 const router = useRouter()
+const route = useRoute()
 const userStore = userCheckStore()
 
 const toBeContinue = function () {
@@ -71,7 +73,9 @@ const toBeContinue = function () {
 
 const goHome = function () {
   router.push({ name: 'home' })
-  window.location.reload()
+  if (route.name === 'home') {
+    window.location.reload()
+  }
 }
 
 const goLogin = function () {

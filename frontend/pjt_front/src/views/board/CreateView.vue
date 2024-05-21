@@ -1,5 +1,38 @@
 <template>
-  <div>
+  <div class="form-container sign-in-container mt-12">
+    <v-form>
+      <h1 class="pb-8 font-weight-bold">게시글 작성</h1>
+      <v-text-field
+        prepend-inner-icon="mdi-border-color"
+        placeholder="제목"
+        v-model.trim="title"
+        label="제목"
+        id="title"
+      ></v-text-field>
+      <v-textarea
+        prepend-inner-icon="mdi-sort-variant"
+        placeholder="내용"
+        label="내용"
+        v-model.trim="content"
+        id="content"
+      ></v-textarea>
+      <v-btn
+        color="info"
+        block
+        dark
+        tile
+        class="pa-6 font-weight-bold"
+        elevation="0"
+        @click="createArticle()"
+        >
+        <span v-if="isCreate">게시글 작성</span>
+        <span v-else>게시글 수정</span>
+        </v-btn
+      >
+    </v-form>
+  </div>
+
+  <!-- <div>
     <h1>게시글 작성</h1>
     <form @submit.prevent="handleSubmit">
       <div>
@@ -15,7 +48,7 @@
         <input v-else type="submit" value="수정">
       </v-btn> 
     </form>
-  </div>
+  </div> -->
 </template>
 
 <script setup>
@@ -108,6 +141,27 @@ if (route.name === 'UpdateView') {
 
 </script>
 
-<style>
+<style scoped>
+.sign-in-container {
+  left: 0;
+  width: 50%;
+  z-index: 2;
+}
+.team-img {
+  width: 50%;
+}
 
+.container.right-panel-active .sign-in-container {
+  transform: translateX(100%);
+}
+
+.container.right-panel-active .overlay-container {
+  transform: translateX(-100%);
+}
+.forgot-password-sm {
+  font-size: 12px;
+}
+.forgot-password-md {
+  font-size: 15px;
+}
 </style>

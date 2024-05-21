@@ -48,13 +48,6 @@
                           <option :value="bk" v-for="bk in bankList">{{ bk }}</option>
                       </select>
                   </div>
-                  <div class="mb-3">
-                      <label for="period">희망 유치기간 :</label>
-                      <select name="period" id="period" v-model="period" style="width: 70%;">
-                          <option disabled value="">다음 중 하나를 선택하세요</option>
-                          <option :value="pr" v-for="pr in periodList">{{ pr }}</option>
-                      </select>
-                  </div>
               </div>
               <div>
                 <v-btn type="submit">수정</v-btn>
@@ -91,12 +84,6 @@ const period = ref(null)
 const goChangePassword = function (pk) {
     router.push({ name: 'changepassword' })
 }
-
-const periodList = [
-    "1년 이하",
-    "1년 초과 ~ 2년 이하",
-    "2년 초과 ~ 3년 이하"
-]
 
 const bankList = [
     '우리은행', '한국스탠다드차타드은행', '대구은행', '부산은행',
