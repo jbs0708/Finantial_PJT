@@ -1,4 +1,3 @@
-<!-- src/App.vue -->
 <template>
   <v-app>
     <v-app-bar color="primary">
@@ -14,13 +13,13 @@
 
     
     <v-navigation-drawer permanent>
-      <v-sheet class="pa-4" color="grey-lighten-4">
+      <v-sheet class="pa-4 text-center" color="grey-lighten-4">
         <v-avatar class="mb-4" color="grey-darken-1" size="64"></v-avatar>
         <div v-if="userStore.token">
           <p><strong>{{ userStore.userId }}님</strong>, 안녕하세요</p>
           <div>
-            <v-btn @click="goDetail">개인정보 수정</v-btn>
             <v-btn @click="goMyProfile">나의 프로필</v-btn>
+            <v-btn @click="userStore.logOut">로그아웃</v-btn>
           </div>
         </div>
         <div v-else>
@@ -39,8 +38,10 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-main class="d-flex align-center justify-center" style="min-height: 300px;">
-      <RouterView />
+    <v-main class="d-flex flex-column align-center justify-center">
+      <div class="main-content">
+        <RouterView />
+      </div>
     </v-main>
 
     <v-footer class="bg-primary text-center d-flex flex-column" height="auto">
@@ -61,11 +62,13 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import { userCheckStore } from '@/stores/usercheck'
+import { useDataStore } from '@/stores/finantialdata'
 import { useRouter, useRoute } from 'vue-router'
 
 const router = useRouter()
 const route = useRoute()
 const userStore = userCheckStore()
+const store = useDataStore()
 
 const toBeContinue = function () {
   window.alert('작성중...')
@@ -73,9 +76,9 @@ const toBeContinue = function () {
 
 const goHome = function () {
   router.push({ name: 'home' })
-  if (route.name === 'home') {
-    window.location.reload()
-  }
+  // if (route.name === 'home') {
+  //   window.location.reload()
+  // }
 }
 
 const goLogin = function () {
@@ -117,3 +120,28 @@ export default {
   }),
 }
 </script>
+
+<style scoped>
+.v-btn {
+  padding: 5px;
+  margin: 5px;
+}
+
+.main-content {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+  min-height: 300px;
+}
+
+.v-app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+</style>
+
+

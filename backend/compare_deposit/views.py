@@ -34,9 +34,7 @@ def deposit_product(request):
                 serializer.save()
 
     for optionList in optionLists:
-        if DepositOptions.objects.filter(fin_prdt_cd=optionList.get('fin_prdt_cd')).exists():
-            continue
-        deposit_product = DepositProducts.objects.get(fin_prdt_cd=optionList.get('fin_prdt_cd'))
+        deposit_product = DepositProducts.objects.get(fin_prdt_cd = optionList.get('fin_prdt_cd'))
         serializer = DepositOptionsSerializer(data=optionList)
         if serializer.is_valid(raise_exception=True):
             serializer.save(deposit_product=deposit_product)
@@ -70,8 +68,6 @@ def saving_product(request):
                 serializer.save()
 
     for optionList in optionLists:
-        if SavingOptions.objects.filter(fin_prdt_cd=optionList.get('fin_prdt_cd')).exists():
-            continue
         saving_product = SavingProducts.objects.get(fin_prdt_cd = optionList.get('fin_prdt_cd'))
         serializer = SavingOptionsSerializer(data=optionList)
         if serializer.is_valid(raise_exception=True):
