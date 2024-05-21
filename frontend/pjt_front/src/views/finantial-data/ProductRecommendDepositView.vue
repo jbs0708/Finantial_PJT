@@ -1,29 +1,27 @@
 <template>
-  <v-card class="custom-window " max-width="1000">
-      <h1 class="pb-8 font-weight-bold">
-        추천상품
-      </h1>
-      <v-card-text>
-
-          <v-autocomplete v-model="selectedCompany" :items="companyNames" label="금융회사명" clearable
-          variant="underlined"></v-autocomplete>
-      </v-card-text>
-        <v-divider></v-divider>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-row align="center" justify="center">
-            <v-col cols="12">
-
-              <v-btn variant="flat" color="info" size="x-large" dark tile rounded="lg"elevation="10"  class="text-none mb-4"
-              @click="recommendProduct(selectedCompany)">
+  <v-container fluid>
+    <v-row justify="center">
+      <v-col cols="12" md="8">
+        <v-card class="custom-window" max-width="1000">
+          <h1 class="pb-8 font-weight-bold">
+            추천상품
+          </h1>
+          <v-card-text>
+            <v-autocomplete v-model="selectedCompany" :items="companyNames" label="금융회사명" clearable variant="underlined"></v-autocomplete>
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn variant="flat" color="info" size="x-large" dark tile rounded="lg" elevation="10" class="text-none mb-4" @click="recommendProduct(selectedCompany)">
               추천 상품 검색
             </v-btn>
-            
-          </v-col>
-        </v-row>
-        </v-card-actions>
-  </v-card>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
+
 
 <script setup>
 import { ref, onMounted } from 'vue'

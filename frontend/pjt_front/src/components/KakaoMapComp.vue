@@ -1,38 +1,44 @@
 <template>
   <div>
     <div>
-          <v-autocomplete
-          v-model="selectedBank"
-          :items="bankOptions"
-          label="은행 선택"
-          clearable
-        ></v-autocomplete>
-          <input type="text" v-model="customBank" placeholder="직접 검색" @keyup.enter="searchCustomBank" />
-          <button @click="moveToCurrentLocation">현재 위치로 이동 및 은행 검색</button>
-        </div>
+      <v-autocomplete
+        v-model="selectedBank"
+        :items="bankOptions"
+        label="은행 선택"
+        clearable
+      ></v-autocomplete>
+      <input type="text" v-model="customBank" placeholder="직접 검색" @keyup.enter="searchCustomBank" />
+      <button @click="moveToCurrentLocation">현재 위치로 이동 및 은행 검색</button>
+    </div>
     <v-row>
       <v-col cols="9">
         <div id="map"></div>
       </v-col>
       <v-col cols="3">
-        <div v-if="selectedPlace" class="detail-container">
-          <v-card>
-            <v-card-title>{{ selectedPlace.place_name }}</v-card-title>
-            <v-card-subtitle>{{ selectedPlace.road_address_name }}</v-card-subtitle>
-            <v-card-text>
-              <p><strong>전화번호:</strong> {{ selectedPlace.phone }}</p>
-              <p><strong>영업시간:</strong> {{ selectedPlace.opening_hours }}</p>
-            </v-card-text>
-          </v-card>
+        <div class="detail-container">
+          <div
+            v-for="place in places"
+            :key="place.id"
+            :class="{ 'highlighted': place.id === highlightedPlaceId }"
+            class="place-card"
+          >
+            <v-card>
+              <v-card-title>{{ place.place_name }}</v-card-title>
+              <v-card-subtitle>{{ place.road_address_name }}</v-card-subtitle>
+              <v-card-text>
+                <p><strong>전화번호:</strong> {{ place.phone }}</p>
+                <p><strong>영업시간:</strong> {{ place.opening_hours }}</p>
+              </v-card-text>
+            </v-card>
+          </div>
         </div>
       </v-col>
     </v-row>
-  
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, watchEffect  } from 'vue';
+import { ref, onMounted, watchEffect } from 'vue';
 
 const selectedBank = ref('');
 const customBank = ref('');
@@ -42,8 +48,25 @@ let map = null;
 let markers = [];
 let ps = null;
 let selectedMarker = null;
-let selectedInfoWindow = null;  // 선택된 인포윈도우 관리
-const selectedPlace = ref(null); // 선택된 장소 정보 저장
+let selectedInfoWindow = null;
+const places = ref([]); // 검색된 장소들을 저장
+const highlightedPlaceId = ref(null); // 강조할 장소의 ID
+let mapReady = false;
+
+onMounted(async () => {
+  if (window.kakao && window.kakao.maps) {
+    initMap(35.1010816, 128.8503296);
+  } else {
+    const script = document.createElement('script');
+    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${mapKey}&libraries=services&autoload=false`;
+    document.head.appendChild(script);
+    script.onload = () => {
+      kakao.maps.load(() => {
+        initMap(35.1010816, 128.8503296);
+      });
+    };
+  }
+});
 
 const initMap = (lat, lon) => {
   const container = document.getElementById('map');
@@ -53,9 +76,9 @@ const initMap = (lat, lon) => {
   };
   map = new kakao.maps.Map(container, options);
   ps = new kakao.maps.services.Places();
+  mapReady = true;
 
-  // 지도 클릭 이벤트 등록
-  kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+  kakao.maps.event.addListener(map, 'click', function (mouseEvent) {
     const latlng = mouseEvent.latLng;
     setLocation(latlng);
   });
@@ -65,7 +88,7 @@ const searchPlaces = (lat, lon, bankName) => {
   const loc = new kakao.maps.LatLng(lat, lon);
   const options = {
     location: loc,
-    radius: 5000, // 반경 5km
+    radius: 5000,
   };
   ps.keywordSearch(bankName || '은행', placesSearchCB, options);
 };
@@ -73,22 +96,25 @@ const searchPlaces = (lat, lon, bankName) => {
 const placesSearchCB = (data, status, pagination) => {
   if (status === kakao.maps.services.Status.OK) {
     removeMarkers();
+    places.value = []; // 검색 결과를 초기화
     for (let i = 0; i < data.length; i++) {
-      displayMarker(data[i]);
+      displayMarker(data[i], i);
+      fetchPlaceDetail(data[i], i);
     }
   } else {
     alert('검색 결과가 없습니다.');
   }
 };
 
-const displayMarker = (place) => {
+const displayMarker = (place, index) => {
   const marker = new kakao.maps.Marker({
     map: map,
     position: new kakao.maps.LatLng(place.y, place.x),
   });
 
   kakao.maps.event.addListener(marker, 'click', function () {
-    fetchPlaceDetail(place); // 마커 클릭 시 장소 세부 정보 가져오기
+    highlightedPlaceId.value = index; // 클릭된 마커에 해당하는 장소 ID를 저장
+    map.panTo(new kakao.maps.LatLng(place.y, place.x)); // 선택된 마커로 지도 이동
   });
 
   markers.push(marker);
@@ -102,6 +128,10 @@ const removeMarkers = () => {
 };
 
 const moveToCurrentLocation = () => {
+  if (!mapReady) {
+    return;
+  }
+
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition((position) => {
       const currentLat = position.coords.latitude;
@@ -109,10 +139,8 @@ const moveToCurrentLocation = () => {
       const currentPos = new kakao.maps.LatLng(currentLat, currentLon);
       map.setCenter(currentPos);
 
-      // 기존 마커 제거
       removeMarkers();
 
-      // 현재 위치에 마커 추가
       const marker = new kakao.maps.Marker({
         map: map,
         position: currentPos,
@@ -124,7 +152,6 @@ const moveToCurrentLocation = () => {
       });
       infowindow.open(map, marker);
 
-      // 현재 위치 주변 은행 검색
       searchPlaces(currentLat, currentLon, selectedBank.value || customBank.value);
     });
   } else {
@@ -135,7 +162,6 @@ const moveToCurrentLocation = () => {
 const setLocation = (latlng) => {
   map.setCenter(latlng);
 
-  // 기존 마커 및 인포윈도우 제거
   if (selectedMarker) {
     selectedMarker.setMap(null);
     selectedMarker = null;
@@ -145,7 +171,6 @@ const setLocation = (latlng) => {
     selectedInfoWindow = null;
   }
 
-  // 클릭 위치에 마커 추가
   selectedMarker = new kakao.maps.Marker({
     map: map,
     position: latlng,
@@ -156,20 +181,17 @@ const setLocation = (latlng) => {
   });
   selectedInfoWindow.open(map, selectedMarker);
 
-  // 선택한 위치 주변 은행 검색
   searchPlaces(latlng.getLat(), latlng.getLng(), selectedBank.value || customBank.value);
 };
 
 const searchSelectedBank = () => {
   if (selectedMarker) {
     const banks = selectedBank.length > 0 ? selectedBank.join(',') : customBank.value;
-    console.log(banks);
     searchPlaces(selectedMarker.getPosition().getLat(), selectedMarker.getPosition().getLng(), banks);
   } else {
     moveToCurrentLocation();
   }
 };
-
 
 watchEffect(() => {
   searchSelectedBank();
@@ -177,32 +199,34 @@ watchEffect(() => {
 
 const searchCustomBank = () => {
   if (selectedMarker) {
-    // 선택한 위치에서 은행 검색
     searchPlaces(selectedMarker.getPosition().getLat(), selectedMarker.getPosition().getLng(), customBank.value);
   } else {
     moveToCurrentLocation();
   }
 };
 
-const fetchPlaceDetail = (place) => {
-  selectedPlace.value = {
-    place_name: place.place_name,
-    road_address_name: place.road_address_name,
-    phone: place.phone,
-    opening_hours: place.opening_hours || '정보 없음',
-  };
+const fetchPlaceDetail = (place, index) => {
+  ps.keywordSearch(place.place_name, (data, status) => {
+    if (status === kakao.maps.services.Status.OK && data.length > 0) {
+      const detail = data[0];
+      places.value[index] = {
+        id: index,
+        place_name: detail.place_name,
+        road_address_name: detail.road_address_name,
+        phone: detail.phone,
+        opening_hours: detail.opening_hours || '정보 없음',
+      };
+    } else {
+      places.value[index] = {
+        id: index,
+        place_name: place.place_name,
+        road_address_name: place.road_address_name,
+        phone: '정보 없음',
+        opening_hours: '정보 없음',
+      };
+    }
+  });
 };
-
-onMounted(async () => {
-  if (window.kakao && window.kakao.maps) {
-    initMap(35.1010816, 128.8503296); // 초기 위치는 35.1010816,128.8503296
-  } else {
-    const script = document.createElement('script');
-    script.src = `//dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=${mapKey}&libraries=services`;
-    document.head.appendChild(script);
-    script.onload = () => kakao.maps.load(() => initMap(35.1010816, 128.8503296));
-  }
-});
 </script>
 
 <style scoped>
@@ -233,11 +257,18 @@ select, input[type="text"] {
   border-radius: 5px;
 }
 
-div#info {
+.detail-container {
   margin-top: 20px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f9f9f9;
+  height: 45rem;
+  overflow-y: scroll;
+}
+
+.place-card {
+  margin-bottom: 10px;
+}
+
+.highlighted {
+  border: 2px solid #007bff;
+  background-color: #e6f0ff;
 }
 </style>
