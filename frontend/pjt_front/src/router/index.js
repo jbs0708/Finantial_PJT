@@ -34,72 +34,67 @@ const router = createRouter({
       component: MainPageView
     },
     {
-      path: '/signup/',
+      path: '/signup',
       name: 'signup',
       component: SignUpView
     },
     {
-      path: '/login/',
+      path: '/login',
       name: 'login',
       component: LoginView
     },
     {
-      path: '/userdetail/',
-      name: 'userdetail',
-      component: UserDetailView
-    },
-    {
-      path: '/changepassword/',
+      path: '/changepassword',
       name: 'changepassword',
       component: ChangePasswordView
     },
     {
-      path: '/map/',
+      path: '/map',
       name: 'map',
       component: MapView
     },
     {
-      path: '/SearchProductView/',
+      path: '/SearchProductView',
       name: 'SearchProductView',
       component: SearchProductView
     },
     {
-      path: '/ProductListDeposit/',
+      path: '/ProductListDeposit',
       name: 'ProductListDeposit',
       component: ProductListDeposit
     },
     {
-      path: '/ProductRecommendDeposit/',
+      path: '/ProductRecommendDeposit',
       name: 'ProductRecommendDeposit',
       component: ProductRecommendDeposit
     },
     {
-      path: '/ProductRecommendSaving/',
+      path: '/ProductRecommendSaving',
       name: 'ProductRecommendSaving',
       component: ProductRecommendSaving
     },
     {
-      path: '/ProductListSaving/',
+      path: '/ProductListSaving',
       name: 'ProductListSaving',
       component: ProductListSaving
     },
     {
-      path: '/ProductDepositDetailView/:fin_prdt_cd/',
+      path: '/ProductDepositDetailView/:fin_prdt_cd',
       name: 'ProductDepositDetailView',
       component: ProductDepositDetailView
     },
     {
-      path: '/ProductSavingDetailView/:fin_prdt_cd/',
+      path: '/ProductSavingDetailView/:fin_prdt_cd',
       name: 'ProductSavingDetailView',
       component: ProductSavingDetailView
     },
     {
-      path: '/myprofile/',
+      path: '/myprofile',
       name: 'myprofile',
       component: MyProfileView
     },
     {
-      path: '/board/',
+      path: '/board',
       name: 'board',
       component: ArticleView
     },
@@ -114,12 +109,12 @@ const router = createRouter({
       component: DetailView
     },
     {
-      path: '/ProductDepositRecommendView/:selectedCompany/',
+      path: '/ProductDepositRecommendView/:selectedCompany',
       name: 'ProductDepositRecommendView',
       component: ProductDepositRecommendView
     },
     {
-      path: '/ProductSavingRecommendView/:selectedCompany/',
+      path: '/ProductSavingRecommendView/:selectedCompany',
       name: 'ProductSavingRecommendView',
       component: ProductSavingRecommendView
     },

@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 # Create your models here.
 class DepositProducts(models.Model):
@@ -10,6 +11,7 @@ class DepositProducts(models.Model):
     join_member = models.TextField()
     join_way = models.TextField()
     spcl_cnd = models.TextField()
+    join_users = models.ManyToManyField(settings.AUTH_USER_MODEL, null= True, related_name= 'join_deposit')
 
 class DepositOptions(models.Model):
     deposit_product = models.ForeignKey(DepositProducts,on_delete = models.CASCADE,related_name='deposit_option')
@@ -29,6 +31,7 @@ class SavingProducts(models.Model):
     join_member = models.TextField()
     join_way = models.TextField()
     spcl_cnd = models.TextField()
+    join_users = models.ManyToManyField(settings.AUTH_USER_MODEL, null= True, related_name= 'join_saving')
 
 class SavingOptions(models.Model):
     saving_product = models.ForeignKey(SavingProducts,on_delete = models.CASCADE,related_name='saving_option')

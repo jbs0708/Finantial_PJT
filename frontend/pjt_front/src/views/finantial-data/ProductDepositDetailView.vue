@@ -33,13 +33,16 @@
                   <label>기타 유의사항: </label>
                   <span>{{ detail.etc_note }}</span>
                 </v-col>
+                <v-col v-for="(rate, term) in rates" :key="term" cols="12">
+                  <span>{{ term }}   이율 : {{ rate }}%</span>
+                </v-col>
               </v-row>
             </v-card-text>
             <v-card-actions>
               <v-row>
-                <v-col v-for="(rate, term) in rates" :key="term" cols="12" md="6">
-                  <span>{{ term }}   이율 : {{ rate }}%</span>
-                  <v-btn color="primary" @click="joinProduct(detail.fin_prdt_cd, term, rate)"> 가입하기</v-btn>
+                <v-col class="text-right">
+                  <v-btn v-if="statement == '가입하기'" color="primary" @click="joinProduct()">상품 {{ statement }}</v-btn>
+                  <v-btn v-else color="red" @click="joinProduct()">상품 가입취소</v-btn>
                 </v-col>
               </v-row>
             </v-card-actions>
@@ -66,11 +69,14 @@
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useDataStore } from '@/stores/finantialdata'
+import { userCheckStore } from '@/stores/usercheck'
 import axios from 'axios'
 
 const route = useRoute()
 const store = useDataStore()
+const userStore = userCheckStore()
 const id = route.params.id
+const userPK = userStore.userPK
 
 const detail = ref(null)
 const rates = ref({})
@@ -91,16 +97,66 @@ onMounted(() => {
           }
         }
       }
+      check_joins_user()
     })
     .catch((err) => {
       console.log(err)
     })
 })
 
-const joinProduct = (productId, term, rate) => {
-  // 선택된 개월 수와 함께 가입하기 로직을 추가하세요.
-  console.log(`상품 ID: ${productId}, 가입 기간: ${term} 개월 , 이율 : ${rate}`)
+// const joinProduct = (productId, term, rate) => {
+//   // 선택된 개월 수와 함께 가입하기 로직을 추가하세요.
+//   console.log(`상품 ID: ${productId}, 가입 기간: ${term} 개월 , 이율 : ${rate}`)
+// }
+
+const check_joins_user = function () {
+  axios({
+    method: 'get',
+    url: `${store.API_URL}/compare_deposit/${route.params.fin_prdt_cd}/joins_deposit_check/`,
+    headers: {
+      Authorization: `Token ${userStore.token}`
+    }
+  })
+    .then((res) => {
+      if (res.data.user) {
+        console.log(res.data)        
+        console.log('가입됨')
+        statement.value = '가입취소'
+      }
+      else {
+        console.log('가입안됨')
+        statement.value = '가입하기'
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+    })
 }
+
+const statement = ref('')
+
+
+const joinProduct = function() {
+  axios({
+    method: 'post',
+    url: `${store.API_URL}/compare_deposit/${route.params.fin_prdt_cd}/joins_deposit/`,
+    headers: {
+      Authorization: `Token ${userStore.token}`
+    }
+  })
+    .then((res) => {
+      if (res.data.joined) {
+        statement.value = "가입취소"
+      } else {
+        statement.value = "가입하기"
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+}
+
+
 </script>
 
 <style scoped>

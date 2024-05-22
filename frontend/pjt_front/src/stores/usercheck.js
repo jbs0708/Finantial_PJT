@@ -20,6 +20,7 @@ export const userCheckStore = defineStore('usercheck', () => {
   const userId = ref(null)
   const router = useRouter()
   const nickname = ref('')
+  const userPK = ref(null)
 
   const signUp = function (payload) {
     // 구조 분해할당
@@ -51,6 +52,24 @@ export const userCheckStore = defineStore('usercheck', () => {
       })
   }
 
+  const findUserPK = function (t) {
+    console.log(t)
+    axios({
+      method: 'get',
+      url: `${API_URL}/api/v1/accounts/findPK/`,
+      headers: {
+        Authorization: `Token ${t}`
+      }
+    })
+      .then((res) => {
+        userPK.value = res.data
+        console.log(userPK.value)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
 
   const logIn = function (payload) {
     const { username, password } = payload
@@ -62,10 +81,11 @@ export const userCheckStore = defineStore('usercheck', () => {
       }
     })
       .then((res) => {
-        console.log('로그인 완료')
+        console.log(res)
         token.value = res.data.key
         userId.value = username
         router.push({name: 'home'})
+        findUserPK(res.data.key)
       })
       .catch((err) => {
         console.log(err)
@@ -138,5 +158,5 @@ export const userCheckStore = defineStore('usercheck', () => {
   }
 
   return { API_URL, signUp, logIn, token, isLogin, logOut, 
-    userId, withdraw, changePassword, nickname }
+    userId, withdraw, changePassword, nickname, userPK }
 }, { persist: true })

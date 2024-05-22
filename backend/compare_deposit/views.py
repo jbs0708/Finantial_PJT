@@ -7,6 +7,10 @@ from django.http import JsonResponse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
+from django.contrib.auth import get_user_model
+from accounts.models import DetailUser
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated
 
 from .models import DepositProducts,DepositOptions,SavingProducts,SavingOptions
 from .serializers import DepositProductsSerializer,DepositOptionsSerializer,SavingOptionsSerializer,SavingProductsSerializer,DepositOptionsSerializerCall,SavingOptionsSerializerCall,DepositProductDetailSerializer,SavingProductDetailSerializer
@@ -96,3 +100,52 @@ def saving_product_detail(request, fin_prdt_cd):
     saving_product = get_object_or_404(SavingProducts, fin_prdt_cd=fin_prdt_cd)
     detail = SavingProductDetailSerializer(saving_product).data
     return Response(detail)
+
+
+# 적금 가입
+@permission_classes([IsAuthenticated])
+@api_view(['POST'])
+def saving_joins(request, fin_prdt_cd):
+    saving = SavingProducts.objects.get(fin_prdt_cd=fin_prdt_cd)
+    if request.user in saving.join_users.all():
+        saving.join_users.remove(request.user)
+        joined = False
+    else:
+        saving.join_users.add(request.user)
+        joined = True
+    return Response({'joined': joined})
+
+# 적금 가입여부 조회
+@permission_classes([IsAuthenticated])
+@api_view(['GET'])
+def check_joins_user_saving(request, fin_prdt_cd):
+    saving = SavingProducts.objects.get(fin_prdt_cd=fin_prdt_cd)
+    if request.user in saving.join_users.all():
+        return Response({'user' : True})
+    else:
+        return Response({'user': False})
+
+
+# 예금 가입
+@permission_classes([IsAuthenticated])
+@api_view(['POST'])
+def deposit_joins(request, fin_prdt_cd):
+    deposit = DepositProducts.objects.get(fin_prdt_cd=fin_prdt_cd)
+    if request.user in deposit.join_users.all():
+        deposit.join_users.remove(request.user)
+        joined = False
+    else:
+        deposit.join_users.add(request.user)
+        joined = True
+    return Response({'joined': joined})
+
+
+# 예금 가입여부 조회
+@permission_classes([IsAuthenticated])
+@api_view(['GET'])
+def check_joins_user_deposit(request, fin_prdt_cd):
+    deposit = DepositProducts.objects.get(fin_prdt_cd=fin_prdt_cd)
+    if request.user in deposit.join_users.all():
+        return Response({'user' : True})
+    else:
+        return Response({'user': False})

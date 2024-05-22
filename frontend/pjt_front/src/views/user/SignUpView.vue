@@ -1,42 +1,7 @@
 <template>
-  <!-- <div>
-    <div>
-      <div>
-        <h1>Sign Up</h1>
-        <form @submit.prevent="signUp">
-          <div>
-            <label for="username">아이디:</label>
-            <div>
-              <input type="text" id="username" v-model.trim="username">
-              <v-btn @click="checkUserID">중복체크</v-btn> 
-            </div>
-            <p :class="{ 'text-danger': !isPassCheckId, primary: isPassCheckId }">{{ checkMsg }}</p>
-          </div>
-          <div>
-            <label for="password1">비밀번호:</label>
-            <input type="password" id="password1" v-model.trim="password1">
-          </div>
-          <div class="mb-3">
-            <label for="password2">비밀번호 확인:</label>
-            <input type="password" id="password2" v-model.trim="password2">
-            <div v-if="password1 !== password2 && password2 !== null" class="text-danger">
-              {{ warning }}
-            </div>
-          </div>
-          <div>
-            <label for="email" class="form-label">이메일:</label>
-            <input type="text" id="email" v-model.trim="email">
-          </div>
-          <div>
-            <v-btn type="submit">SignUp</v-btn>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div> -->
 
   <div class="form-container sign-up-container">
-    <v-form>
+    <v-form @submit.prevent="signUp">
       <h1 class="pb-12 font-weight-bold">Create Account</h1>
       <v-row>
         <v-col cols="9">
@@ -78,7 +43,7 @@
         tile
         class="pa-6 font-weight-bold"
         elevation="0"
-        @click="signUp()"
+        type="submit"
         >Sign Up</v-btn>
     </v-form>
   </div>

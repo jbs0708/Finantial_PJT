@@ -114,36 +114,36 @@
         <div>
           <v-btn type="submit">변경된 내용 저장</v-btn>
           <v-btn @click="store.withdraw">회원 탈퇴</v-btn>
+          <v-btn @click="goChangePassword">비밀번호 변경</v-btn>
         </div>
       </form>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       <v-row justify="center">
-        <v-col cols="12" md="8">
-
-
+        <v-col cols="12" md="12">
           <v-card class="mx-auto my-5">
             <v-card-title>
               <h3>가입한 상품들</h3>
             </v-card-title>
             <v-card-text>
-              <div>~가입한 상품들~</div>
+              <div class="row">
+              <template v-if="products.deposit_list && products.deposit_list.length">
+                <div v-for="deposit in products.deposit_list" :key="deposit.id">
+                  <p>(정기예금){{ deposit.kor_co_nm }} - <span @click="goDetailDeposit(deposit.fin_prdt_cd)">{{ deposit.fin_prdt_nm }}</span></p>
+                </div>
+              </template>
+
+              <div v-if="products.saving_list && products.saving_list.length">
+                <div v-for="saving in products.saving_list" :key="saving.id">
+                  <p>(정기적금){{ saving.kor_co_nm }} - <span @click="goDetailSaving(saving.fin_prdt_cd)">{{ saving.fin_prdt_nm }}</span></p>
+                </div>
+              </div>
+
+              <template v-if="!products.deposit_list && !products.saving_list">
+                <div>
+                  <p class="text-center"><strong>가입한 상품이 없습니다.</strong></p>
+                </div>
+              </template>
+            </div>
             </v-card-text>
           </v-card>
 
@@ -152,18 +152,14 @@
               <h3>가입한 상품 금리</h3>
             </v-card-title>
             <v-card-text>
-              <div>~가입한 상품 금리 차트~</div>
+              <BarChart />
             </v-card-text>
           </v-card>
 
-          <v-card class="mx-auto my-5">
             <v-card-title>
-              <h3>{{ username }}님이 쓴 게시글 목록</h3>
+              <h3>작성한 게시글 목록</h3>
             </v-card-title>
-            <v-card-text>
-              <MyArticleList />
-            </v-card-text>
-          </v-card>
+            <MyArticleList />
         </v-col>
       </v-row>
     </v-container>
@@ -177,11 +173,13 @@ import { userCheckStore } from '@/stores/usercheck'
 import { useBoardStore } from '@/stores/board'
 import { useRouter } from 'vue-router'
 import MyArticleList from '@/components/MyArticleList.vue'
+import BarChart from '@/components/BarChart.vue'
 
 const router = useRouter()
 
 const store = userCheckStore()
 const boardStore = useBoardStore()
+const products = ref('')
 
 const username = ref(null)
 const email = ref(null)
@@ -195,12 +193,9 @@ const genders = ref([
   "남성", "여성"
 ])
 
+
 const goChangePassword = function (pk) {
   router.push({ name: 'changepassword' })
-}
-
-const goDetail = function () {
-  router.push({ name: 'userdetail' })
 }
 
 const periodList = [
@@ -243,7 +238,8 @@ const checkUser = function () {
 
 onMounted(() => {
   checkUser(),
-    boardStore.getMyArticles()
+  boardStore.getMyArticles(),
+  getJoinList()
 })
 
 const updateDetail = function () {
@@ -275,6 +271,33 @@ const updateDetail = function () {
       console.log(err)
     })
 }
+
+const getJoinList = function () {
+  axios({
+    method: 'get',
+    url: `${store.API_URL}/api/v1/accounts/join_list/`,
+    headers: {
+      Authorization: `Token ${store.token}`
+    }
+  })
+    .then((res) => {
+      console.log(res.data)
+      products.value = res.data
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+}
+
+const goDetailDeposit = function (fin_prdt_cd) {
+  router.push({ name: 'ProductDepositDetailView', params: { fin_prdt_cd: fin_prdt_cd } })
+}
+
+const goDetailSaving = function (fin_prdt_cd) {
+  router.push({ name: 'ProductSavingDetailView', params: { fin_prdt_cd: fin_prdt_cd } })
+}
+
+
 </script>
 
 <style scoped>
@@ -287,17 +310,13 @@ const updateDetail = function () {
   margin-bottom: 20px;
 }
 
-.v-container{
-  border: 1px solid lightblue;
-}
-
 .v-btn {
   padding: 5px;
   margin: 5px;
 }
 
 .v-card {
-  padding: 15%;
+  padding: 5%;
 }
 
 .v-card-text {
@@ -306,5 +325,10 @@ const updateDetail = function () {
 
 .spacer {
   margin: 20px;
+}
+
+span {
+  cursor: pointer;
+  color: blue;
 }
 </style>

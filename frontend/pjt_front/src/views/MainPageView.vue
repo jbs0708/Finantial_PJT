@@ -2,11 +2,10 @@
     <div>
       <NaverNews/>
       <ExchangeRateCalculator/>
-      aaa
     </div>
   </template>
   
-  <script>
+  <script setup>
   import axios from 'axios'
   import { ref, onMounted } from 'vue'
   import ExchangeRateCalculator from '@/components/ExchangeRateCalculator.vue'

@@ -7,8 +7,7 @@
       <v-app-bar-title>대표이름</v-app-bar-title>
       <v-btn variant="text" prepend-icon="mdi-home" @click="goHome">HOME</v-btn>
       <v-btn variant="text" prepend-icon="mdi-power" @click="goLogin">LOGIN</v-btn>
-      <v-btn variant="text" prepend-icon="" @click="userStore.logOut">LOGOUT</v-btn>
-      <v-btn variant="text" prepend-icon="" @click="goSignUp">SIGNUP</v-btn>
+      <v-btn variant="text" prepend-icon="mdi-account-edit" @click="goSignUp">SIGNUP</v-btn>
     </v-app-bar>
 
     
@@ -16,7 +15,7 @@
       <v-sheet class="pa-4 text-center" color="grey-lighten-4">
         <v-avatar class="mb-4" color="grey-darken-1" size="64"></v-avatar>
         <div v-if="userStore.token">
-          <p v-if="nickname == ''"><strong>{{ userStore.userId }}님</strong>, 안녕하세요</p>
+          <p v-if="nickname == '' || nickname == null"><strong>{{ userStore.userId }}님</strong>, 안녕하세요</p>
           <p v-else><strong>{{ nickname }}님</strong>, 안녕하세요</p>
           <div>
             <v-btn @click="goMyProfile">나의 프로필</v-btn>
@@ -39,9 +38,11 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-main class="d-flex align-center justify-center" style="min-height: 300px;">
-      <RouterView />
-    </v-main>
+    <div class="main-wrapper">
+      <v-main class="main-content">
+        <RouterView />
+      </v-main>
+    </div>
 
     <v-footer class="bg-primary text-center d-flex flex-column" height="auto">
       <div class="d-flex align-center justify-center py-1"> <!-- 수정된 부분 -->
@@ -69,15 +70,17 @@ const router = useRouter()
 const route = useRoute()
 const userStore = userCheckStore()
 
+const nickname = userStore.nickname
+
 const toBeContinue = function () {
   window.alert('작성중...')
 }
 
 const goHome = function () {
   router.push({ name: 'home' })
-  // if (route.name === 'home') {
-  //   window.location.reload()
-  // }
+  if (route.name === 'home') {
+    window.location.reload()
+  }
 }
 
 const goLogin = function () {
@@ -104,6 +107,26 @@ const goMyProfile = function () {
 
 .v-footer {
   padding: 10px;
+}
+
+.v-btn {
+  margin: 5px;
+  padding: 5px;
+}
+
+.main-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.main-content {
+  max-width: 1200px;
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  min-height: 200px;
 }
 </style>
 

@@ -10,7 +10,7 @@ import json
 from django.http import JsonResponse 
 
 from .models import User, DetailUser
-from .serializers import UserDetailSerializer 
+from .serializers import UserDetailSerializer, UserJoinListSerializer
 
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -70,3 +70,17 @@ def delete_user(request):
     detail.delete()
     user.delete()
     return Response('{msg: delete complete}', status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def join_list(request):
+    serializer = UserJoinListSerializer(request.user)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def findPK(request):
+    userPK = request.user.id
+    return Response(userPK, status=status.HTTP_200_OK)
