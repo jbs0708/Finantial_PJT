@@ -75,9 +75,9 @@ const toBeContinue = function () {
 
 const goHome = function () {
   router.push({ name: 'home' })
-  // if (route.name === 'home') {
-  //   window.location.reload()
-  // }
+  if (route.name === 'home') {
+     window.location.reload()
+    }
 }
 
 const goLogin = function () {
