@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import User, DetailUser
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from compare_deposit.serializers import DepositProductsSerializer, SavingProductsSerializer
+from compare_deposit.serializers import DepositOptionsSerializerCall, SavingOptionsSerializerCall
 
 User = get_user_model()
 
@@ -29,7 +29,7 @@ class UserJoinListSerializer(serializers.ModelSerializer):
         fields = ('deposit_list', 'saving_list')
 
     def get_deposit_list(self, obj):
-        return DepositProductsSerializer(obj.join_deposit.all(), many=True).data
+        return DepositOptionsSerializerCall(obj.join_deposit.all(), many=True).data
 
     def get_saving_list(self, obj):
-        return SavingProductsSerializer(obj.join_saving.all(), many=True).data
+        return SavingOptionsSerializerCall(obj.join_saving.all(), many=True).data

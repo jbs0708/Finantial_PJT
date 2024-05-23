@@ -55,6 +55,7 @@ class DepositOptionsSerializerCall(serializers.ModelSerializer):
         model = DepositOptions
         fields = ('fin_prdt_cd', 'intr_rate_type_nm', 'intr_rate', 'intr_rate2', 'save_trm', 'deposit_product','deposit_product_id')
 
+
 # 적금 상품 조회를 위한 데이터 병합 과정
 class SavingProductsSerializerBank(serializers.ModelSerializer):
     class Meta:
@@ -65,4 +66,4 @@ class SavingOptionsSerializerCall(serializers.ModelSerializer):
     saving_product = SavingProductsSerializerBank()  
     class Meta:
         model = SavingOptions
-        fields = ('fin_prdt_cd', 'intr_rate_type_nm', 'intr_rate', 'intr_rate2', 'save_trm', 'saving_product','saving_product_id')
+        fields = '__all__'

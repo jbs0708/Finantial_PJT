@@ -128,13 +128,13 @@
               <div class="row">
               <template v-if="products.deposit_list && products.deposit_list.length">
                 <div v-for="deposit in products.deposit_list" :key="deposit.id">
-                  <p>(정기예금){{ deposit.kor_co_nm }} - <span @click="goDetailDeposit(deposit.fin_prdt_cd)">{{ deposit.fin_prdt_nm }}</span></p>
+                  <p>(정기예금){{ deposit.deposit_product.kor_co_nm }} - <span @click="goDetailDeposit(deposit.deposit_product.fin_prdt_cd)">{{ deposit.deposit_product.fin_prdt_nm }}</span></p>
                 </div>
               </template>
 
               <div v-if="products.saving_list && products.saving_list.length">
                 <div v-for="saving in products.saving_list" :key="saving.id">
-                  <p>(정기적금){{ saving.kor_co_nm }} - <span @click="goDetailSaving(saving.fin_prdt_cd)">{{ saving.fin_prdt_nm }}</span></p>
+                  <p>(정기적금){{ saving.saving_product.kor_co_nm }} - <span @click="goDetailSaving(saving.saving_product.fin_prdt_cd)">{{ saving.saving_product.fin_prdt_nm }}</span></p>
                 </div>
               </div>
 
@@ -229,7 +229,6 @@ const checkUser = function () {
       asset.value = res.data.asset
       salary.value = res.data.salary
       bank.value = res.data.bank
-      period.value = res.data.period
     })
     .catch((err) => {
       console.log(err)

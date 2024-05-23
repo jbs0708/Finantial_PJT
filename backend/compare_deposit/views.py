@@ -52,6 +52,13 @@ def deposit_call(request):
     respo = DepositOptionsSerializerCall(deposit_products,many=True).data
     return Response(respo)
 
+# 예금 상품 옵션 조회
+@api_view(['GET'])
+def deposit_options(request, fin_prdt_cd):
+    deposit_products = DepositOptions.objects.filter(fin_prdt_cd=fin_prdt_cd)
+    respo = DepositOptionsSerializerCall(deposit_products,many=True).data
+    return Response(respo)
+
 # 적금 상품 API 호출
 @api_view(['GET'])
 def saving_product(request):
@@ -87,6 +94,13 @@ def saving_call(request):
     respo = SavingOptionsSerializerCall(saving_products,many=True).data
     return Response(respo)
 
+# 적금 상세 옵션 조회
+@api_view(['GET'])
+def saving_options(request, fin_prdt_cd):
+    saving_products = SavingOptions.objects.filter(fin_prdt_cd=fin_prdt_cd)
+    respo = SavingOptionsSerializerCall(saving_products,many=True).data
+    return Response(respo)
+
 # 예금 상세 조회
 @api_view(['GET'])
 def deposit_product_detail(request, fin_prdt_cd):
@@ -105,8 +119,8 @@ def saving_product_detail(request, fin_prdt_cd):
 # 적금 가입
 @permission_classes([IsAuthenticated])
 @api_view(['POST'])
-def saving_joins(request, fin_prdt_cd):
-    saving = SavingProducts.objects.get(fin_prdt_cd=fin_prdt_cd)
+def saving_joins(request, fin_prdt_cd, save_trm, rsrv_type):
+    saving = SavingOptions.objects.get(fin_prdt_cd=fin_prdt_cd, save_trm=save_trm, rsrv_type=rsrv_type)
     if request.user in saving.join_users.all():
         saving.join_users.remove(request.user)
         joined = False
@@ -118,8 +132,8 @@ def saving_joins(request, fin_prdt_cd):
 # 적금 가입여부 조회
 @permission_classes([IsAuthenticated])
 @api_view(['GET'])
-def check_joins_user_saving(request, fin_prdt_cd):
-    saving = SavingProducts.objects.get(fin_prdt_cd=fin_prdt_cd)
+def check_joins_user_saving(request, fin_prdt_cd, save_trm, rsrv_type):
+    saving = SavingOptions.objects.get(fin_prdt_cd=fin_prdt_cd, save_trm=save_trm, rsrv_type=rsrv_type)
     if request.user in saving.join_users.all():
         return Response({'user' : True})
     else:
@@ -129,8 +143,9 @@ def check_joins_user_saving(request, fin_prdt_cd):
 # 예금 가입
 @permission_classes([IsAuthenticated])
 @api_view(['POST'])
-def deposit_joins(request, fin_prdt_cd):
-    deposit = DepositProducts.objects.get(fin_prdt_cd=fin_prdt_cd)
+def deposit_joins(request, fin_prdt_cd, save_trm):
+    deposit = DepositOptions.objects.get(fin_prdt_cd=fin_prdt_cd, save_trm=save_trm)
+    print(deposit)
     if request.user in deposit.join_users.all():
         deposit.join_users.remove(request.user)
         joined = False
@@ -143,9 +158,11 @@ def deposit_joins(request, fin_prdt_cd):
 # 예금 가입여부 조회
 @permission_classes([IsAuthenticated])
 @api_view(['GET'])
-def check_joins_user_deposit(request, fin_prdt_cd):
-    deposit = DepositProducts.objects.get(fin_prdt_cd=fin_prdt_cd)
+def check_joins_user_deposit(request, fin_prdt_cd, save_trm):
+    deposit = DepositOptions.objects.get(fin_prdt_cd=fin_prdt_cd, save_trm=save_trm)
     if request.user in deposit.join_users.all():
+        print('-----------------------아니 뭐가 문젠데?')
         return Response({'user' : True})
     else:
+        print('-----------------------말을해봐')
         return Response({'user': False})

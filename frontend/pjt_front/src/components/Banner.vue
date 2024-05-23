@@ -9,7 +9,7 @@
         justify-center
       >
         <v-img
-          src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+          src="/assets/Logo.jpg"
           contain
         ></v-img>
       </v-sheet>
@@ -24,7 +24,7 @@
         justify-center
       >
         <v-img
-          src="/assets/test.png"
+          src="/assets/banner1.jpg"
           contain
         ></v-img>
       </v-sheet>
@@ -39,7 +39,7 @@
         justify-center
       >
         <v-img
-          src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
+          src="/assets/banner2.jpg"
           contain
         ></v-img>
       </v-sheet>

@@ -10,29 +10,32 @@ export const useDataStore = defineStore('data', () => {
   // const vuetify_datas = []
   const API_URL = 'http://127.0.0.1:8000'
   const saveDatas = function () {
-    axios({
-        method:'GET',
-        url: `${API_URL}/compare_deposit/deposit_product/`,
-        
-      })
-      .then(res => {
-        console.log(res.data)
-      }).
-      catch(err => 
-        console.error(err)
-    )
-    axios({
-        method:'GET',
-        url: `${API_URL}/compare_deposit/saving_product/`,
-        
-      })
-      .then(res => {
-        console.log(res.data)
-      }).
-      catch(err => 
-        console.error(err)
-    )
-}
+    if (depositDatas.value.length == 0 && savingDatas.value.length == 0) {
+        axios({
+            method:'GET',
+            url: `${API_URL}/compare_deposit/deposit_product/`,
+            
+          })
+          .then(res => {
+            console.log(res.data)
+          }).
+          catch(err => 
+            console.error(err)
+        )
+        axios({
+            method:'GET',
+            url: `${API_URL}/compare_deposit/saving_product/`,
+            
+        })
+            .then(res => {
+            console.log(res.data)
+        })
+            .catch(err => 
+            console.error(err)
+            )
+    }
+    }
+
  const getDatas = function () {
   axios({
     method:'GET',

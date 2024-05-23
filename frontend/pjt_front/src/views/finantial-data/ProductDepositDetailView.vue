@@ -33,20 +33,20 @@
                   <label>기타 유의사항: </label>
                   <span>{{ detail.etc_note }}</span>
                 </v-col>
-                <v-col v-for="(rate, term) in rates" :key="term" cols="12">
-                  <span>{{ term }}   이율 : {{ rate }}%</span>
-                </v-col>
               </v-row>
             </v-card-text>
-            <v-card-actions>
-              <v-row>
-                <v-col class="text-right">
-                  <v-btn v-if="statement == '가입하기'" color="primary" @click="joinProduct()">상품 {{ statement }}</v-btn>
-                  <v-btn v-else color="red" @click="joinProduct()">상품 가입취소</v-btn>
-                </v-col>
-              </v-row>
-            </v-card-actions>
+
+            <v-row>
+              <v-col v-for="(rate, term) in rates" :key="term" cols="5" offset="1">
+                <div v-if="!rate == ''">
+                  <span>{{ term }}개월 이율 : {{ rate }}%</span>
+                  <v-btn v-if="!joinList[term]" color="primary" @click="joinProduct(term)">상품 가입하기</v-btn>
+                  <v-btn v-else color="red" @click="joinProduct(term)">상품 가입취소</v-btn>
+                </div>
+              </v-col>
+            </v-row>
           </v-card>
+
           <v-card v-else class="mx-auto my-5" max-width="800">
             <v-card-title>
               <h2>상세정보 받아오는 중...</h2>
@@ -66,7 +66,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onBeforeMount } from 'vue'
 import { useRoute } from 'vue-router'
 import { useDataStore } from '@/stores/finantialdata'
 import { userCheckStore } from '@/stores/usercheck'
@@ -75,88 +75,79 @@ import axios from 'axios'
 const route = useRoute()
 const store = useDataStore()
 const userStore = userCheckStore()
-const id = route.params.id
-const userPK = userStore.userPK
 
 const detail = ref(null)
 const rates = ref({})
+const options = ref(null)
+const joinList = ref({})
+const statement = ref(null)
 
-onMounted(() => {
+onMounted(async () => {
   const API_LINK = route.params.fin_prdt_cd
-  axios.get(`${store.API_URL}/compare_deposit/deposit_product/detail/${API_LINK}/`)
-    .then((res) => {
-      detail.value = res.data
-      console.log(detail.value)
+  const product = store.depositDatas.find(item => item.fin_prdt_cd === API_LINK)
+  console.log(product)
+  
+  try {
+    const optionsRes = await axios.get(`${store.API_URL}/compare_deposit/deposit_product/options/${API_LINK}/`)
+    options.value = optionsRes.data
+    console.log(options.value)
 
-      // 로컬 스토리지에서 해당 상품의 가능한 개월 수와 금리 정보 가져오기
-      const product = store.depositDatas.find(item => item.fin_prdt_cd === API_LINK)
-      if (product) {
-        for (const [key, value] of Object.entries(product)) {
-          if (key !== '금융회사명' && key !== '상품명' && key !== 'fin_prdt_cd' && key !== 'id') {
-            rates.value[key] = value
-          }
+    if (options.value.length > 0) {
+      const promises = options.value.map(async (option) => {
+        if (option.save_trm >= 6) {
+          rates.value[option.save_trm] = option.intr_rate
+          await check_joins_user(option.save_trm)
+          joinList.value[option.save_trm] = statement.value
+          console.log(option.save_trm)
         }
-      }
-      check_joins_user()
-    })
-    .catch((err) => {
-      console.log(err)
-    })
+      })
+      
+      await Promise.all(promises)
+      console.log(joinList.value)
+    }
+
+    const detailRes = await axios.get(`${store.API_URL}/compare_deposit/deposit_product/detail/${API_LINK}/`)
+    detail.value = detailRes.data
+
+  } catch (err) {
+    console.log(err)
+  }
 })
 
-// const joinProduct = (productId, term, rate) => {
-//   // 선택된 개월 수와 함께 가입하기 로직을 추가하세요.
-//   console.log(`상품 ID: ${productId}, 가입 기간: ${term} 개월 , 이율 : ${rate}`)
-// }
-
-const check_joins_user = function () {
-  axios({
-    method: 'get',
-    url: `${store.API_URL}/compare_deposit/${route.params.fin_prdt_cd}/joins_deposit_check/`,
-    headers: {
-      Authorization: `Token ${userStore.token}`
-    }
-  })
-    .then((res) => {
-      if (res.data.user) {
-        console.log(res.data)        
-        console.log('가입됨')
-        statement.value = '가입취소'
-      }
-      else {
-        console.log('가입안됨')
-        statement.value = '가입하기'
+const check_joins_user = async function (term) {
+  try {
+    const res = await axios({
+      method: 'get',
+      url: `${store.API_URL}/compare_deposit/${route.params.fin_prdt_cd}/joins_deposit_check/${term}/`,
+      headers: {
+        Authorization: `Token ${userStore.token}`
       }
     })
-    .catch((err) => {
-      console.log(err)
-    })
+    statement.value = res.data.user
+  } catch (err) {
+    console.log(err)
+  }
 }
 
-const statement = ref('')
-
-
-const joinProduct = function() {
-  axios({
-    method: 'post',
-    url: `${store.API_URL}/compare_deposit/${route.params.fin_prdt_cd}/joins_deposit/`,
-    headers: {
-      Authorization: `Token ${userStore.token}`
-    }
-  })
-    .then((res) => {
-      if (res.data.joined) {
-        statement.value = "가입취소"
-      } else {
-        statement.value = "가입하기"
+const joinProduct = async function(term) {
+  try {
+    const res = await axios({
+      method: 'post',
+      url: `${store.API_URL}/compare_deposit/${route.params.fin_prdt_cd}/joins_deposit/${term}/`,
+      headers: {
+        Authorization: `Token ${userStore.token}`
       }
     })
-    .catch((err) => {
-      console.log(err)
-    })
+
+    if (res.data.joined) {
+      joinList.value[term] = true
+    } else {
+      joinList.value[term] = false
+    }
+  } catch (err) {
+    console.log(err)
+  }
 }
-
-
 </script>
 
 <style scoped>
@@ -170,5 +161,9 @@ const joinProduct = function() {
 }
 .text-center {
   text-align: center;
+}
+.v-row {
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 </style>

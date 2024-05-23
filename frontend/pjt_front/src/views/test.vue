@@ -37,15 +37,10 @@
             </v-card-text>
 
             <v-row>
-              <v-col v-for="rate in rates" :key="rate.id" cols="6">
-                <div v-if="!rate == ''" class="text-center">
-                  <span :style="{ backgroundColor: rate.rsrv_type === 'F' ? 'yellow' : 'pink' }">{{ rate.rsrv_type === 'F' ? '자유적립식' : '정액적립식' }}</span>
-                  <p>{{ rate.save_trm }}개월 이율 : {{ rate.intr_rate }}%</p>
-                  <v-btn :color="joinList[rate.id] ? 'red' : 'primary'"
-                  @click="joinProduct(rate.save_trm, rate.rsrv_type, rate.id)">
-                  {{ joinList[rate.id] ? '상품 가입취소' : '상품 가입하기' }}
-                  </v-btn>
-                </div>
+              <v-col v-for="(rate, term) in rates" :key="term" cols="5" offset="1">
+                <span>{{ term }}개월 이율 : {{ rate }}%</span>
+                <v-btn v-if="!joinList[term]" color="primary" @click="joinProduct(term)">상품 가입하기</v-btn>
+                <v-btn v-else color="red" @click="joinProduct(term)">상품 가입취소</v-btn>
               </v-col>
             </v-row>
           </v-card>
@@ -80,7 +75,7 @@ const store = useDataStore()
 const userStore = userCheckStore()
 
 const detail = ref(null)
-const rates = ref([])
+const rates = ref({})
 const options = ref(null)
 const joinList = ref({})
 const statement = ref(null)
@@ -96,27 +91,18 @@ onMounted(async () => {
     console.log(options.value)
 
     if (options.value.length > 0) {
-    const promises = options.value.map(async (option) => {
+      const promises = options.value.map(async (option) => {
         if (option.save_trm >= 6) {
-            // rates 객체 안에 id를 키로 하여 새로운 객체를 저장
-            rates.value.push({
-                id: option.id,
-                save_trm: option.save_trm,
-                intr_rate: option.intr_rate,
-                rsrv_type: option.rsrv_type
-            });
-
-            await check_joins_user(option.save_trm, option.rsrv_type);
-            joinList.value[option.id] = statement.value;
-            console.log(joinList.value[option.id]);
-            console.log(`id: ${option.id}, save_trm: ${option.save_trm}, intr_rate: ${option.intr_rate}, rsrv_type: ${option.rsrv_type}`);
+          rates.value[option.save_trm] = option.intr_rate
+          await check_joins_user(option.save_trm)
+          joinList.value[option.save_trm] = statement.value
+          console.log(option.save_trm)
         }
-    });
-    
-
-    await Promise.all(promises);  // 모든 비동기 작업이 완료될 때까지 대기
-    console.log(joinList.value);  // 모든 작업이 완료된 후 joinList의 값을 출력
-}
+      })
+      
+      await Promise.all(promises)
+      console.log(joinList.value)
+    }
 
     const detailRes = await axios.get(`${store.API_URL}/compare_deposit/saving_product/detail/${API_LINK}/`)
     detail.value = detailRes.data
@@ -124,16 +110,13 @@ onMounted(async () => {
   } catch (err) {
     console.log(err)
   }
-
 })
-console.log(rates.value);  // rates 객체의 값을 출력
 
-
-const check_joins_user = async function (term, rsrv_type) {
+const check_joins_user = async function (term) {
   try {
     const res = await axios({
       method: 'get',
-      url: `${store.API_URL}/compare_deposit/${route.params.fin_prdt_cd}/joins_saving_check/${term}/${rsrv_type}/`,
+      url: `${store.API_URL}/compare_deposit/${route.params.fin_prdt_cd}/joins_saving_check/${term}/`,
       headers: {
         Authorization: `Token ${userStore.token}`
       }
@@ -144,20 +127,20 @@ const check_joins_user = async function (term, rsrv_type) {
   }
 }
 
-const joinProduct = async function(term, rsrv_type, id) {
+const joinProduct = async function(term) {
   try {
     const res = await axios({
       method: 'post',
-      url: `${store.API_URL}/compare_deposit/${route.params.fin_prdt_cd}/joins_saving/${term}/${rsrv_type}/`,
+      url: `${store.API_URL}/compare_deposit/${route.params.fin_prdt_cd}/joins_saving/${term}/`,
       headers: {
         Authorization: `Token ${userStore.token}`
       }
     })
 
     if (res.data.joined) {
-      joinList.value[id] = true
+      joinList.value[term] = true
     } else {
-      joinList.value[id] = false
+      joinList.value[term] = false
     }
   } catch (err) {
     console.log(err)

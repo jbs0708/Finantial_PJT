@@ -1,16 +1,16 @@
 <template>
   <v-row fluid grid-list-md>
-    <v-col cols="8" offset="1" style="height: 800px;">
+    <v-col cols="7" offset="1" style="height: 800px;">
       <Banner />
     </v-col>
-    <v-col cols="2" class="calculator-column">
+    <v-col cols="3" class="calculator-column">
       <ExchangeRateCalculator />
     </v-col>
     <v-divider></v-divider>
-    <v-col cols="5" offset="1" class="scrollable-column">
+    <v-col cols="4" offset="1" class="scrollable-column">
       <NaverNews />
     </v-col>
-    <v-col cols="5" class="scrollable-column">
+    <v-col cols="6" class="scrollable-column">
       <NaverStock />
     </v-col>
   </v-row>

@@ -11,7 +11,7 @@ class DepositProducts(models.Model):
     join_member = models.TextField()
     join_way = models.TextField()
     spcl_cnd = models.TextField()
-    join_users = models.ManyToManyField(settings.AUTH_USER_MODEL, null= True, related_name= 'join_deposit')
+
 
 class DepositOptions(models.Model):
     deposit_product = models.ForeignKey(DepositProducts,on_delete = models.CASCADE,related_name='deposit_option')
@@ -20,6 +20,7 @@ class DepositOptions(models.Model):
     intr_rate = models.FloatField(null=True)
     intr_rate2 = models.FloatField(null=True)
     save_trm = models.IntegerField()
+    join_users = models.ManyToManyField(settings.AUTH_USER_MODEL, null= True, related_name= 'join_deposit')
 
 
 class SavingProducts(models.Model):
@@ -31,7 +32,7 @@ class SavingProducts(models.Model):
     join_member = models.TextField()
     join_way = models.TextField()
     spcl_cnd = models.TextField()
-    join_users = models.ManyToManyField(settings.AUTH_USER_MODEL, null= True, related_name= 'join_saving')
+    
 
 class SavingOptions(models.Model):
     saving_product = models.ForeignKey(SavingProducts,on_delete = models.CASCADE,related_name='saving_option')
@@ -40,3 +41,5 @@ class SavingOptions(models.Model):
     intr_rate = models.FloatField(null=True)
     intr_rate2 = models.FloatField(null=True)
     save_trm = models.IntegerField()
+    rsrv_type = models.TextField()
+    join_users = models.ManyToManyField(settings.AUTH_USER_MODEL, null= True, related_name= 'join_saving')
