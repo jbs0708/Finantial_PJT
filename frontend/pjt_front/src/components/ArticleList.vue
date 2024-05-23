@@ -42,15 +42,15 @@ export default {
     const goToDetail = (item) => {
       const articleId = item.id
       console.log(item)
-      router.push({ name: 'DetailView', params: { id: articleId } });
+      router.push({ name: 'DetailView', params: { id: item.id } });
     };
 
     return {
+      goToDetail,
       boardStore,
       headers,
       currentPage,
-      itemsPerPage,
-      goToDetail,
+      itemsPerPage
     };
   },
 

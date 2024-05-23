@@ -97,7 +97,7 @@ onMounted(async () => {
 
     if (options.value.length > 0) {
     const promises = options.value.map(async (option) => {
-        if (option.save_trm >= 6) {
+        if (option.save_trm >= 6 && option.intr_rate !== null) {
             // rates 객체 안에 id를 키로 하여 새로운 객체를 저장
             rates.value.push({
                 id: option.id,

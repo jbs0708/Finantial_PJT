@@ -1,5 +1,9 @@
 <template>
+  <v-row fluid grid-list-sm>
+    <v-spacer></v-spacer>
+    <v-col cols="6">
   <div>
+    <h1 class="pb-12 font-weight-bold">비밀번호 변경</h1>
     <VCardText>
           <!-- 👉 Form -->
           <VForm class="mt-6">
@@ -52,6 +56,9 @@
     </VCardText>
   
 </div>
+</v-col>
+<v-spacer></v-spacer>
+</v-row>
 </template>
 
 <script setup>

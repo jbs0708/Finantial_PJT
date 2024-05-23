@@ -1,10 +1,10 @@
 <template>
   <div>
-    <h3 class="text-center">예금 상품</h3>
-    <canvas id="myDepositChart"></canvas>
+      <h3 class="text-center">예금 상품</h3>
+      <canvas id="myDepositChart"></canvas>      
 
-    <h3 class="text-center">적금 상품</h3>
-    <canvas id="mySavingChart"></canvas>
+      <h3 class="text-center">적금 상품</h3>
+      <canvas id="mySavingChart"></canvas>
   </div>
 </template>
 
@@ -64,6 +64,11 @@ const getJoinList = function () {
 }
 
 const createDepositChart = () => {
+  for (let index = 0; index < my_deposit_list.value.length; index++) {
+    if (best_deposit_list.value[index] == null) {
+      best_deposit_list.value[index] = my_deposit_list.value[index]
+    }
+  }
   const ctx = document.getElementById('myDepositChart').getContext('2d');
 
   const myDepositChart = new Chart(ctx, {
@@ -96,6 +101,11 @@ const createDepositChart = () => {
 };
 
 const createSavingChart = () => {
+  for (let index = 0; index < my_saving_list.value.length; index++) {
+    if (best_saving_list.value[index] == null) {
+      best_saving_list.value[index] = my_saving_list.value[index]
+    }
+  }
   const ctx = document.getElementById('mySavingChart').getContext('2d');
   const mySavingChart = new Chart(ctx, {
     type: 'bar',

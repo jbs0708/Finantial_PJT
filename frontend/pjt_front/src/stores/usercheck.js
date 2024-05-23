@@ -6,7 +6,7 @@ import axios from 'axios'
 export const userCheckStore = defineStore('usercheck', () => {
   const API_URL = 'http://127.0.0.1:8000'
   // const API_URL = 'http://3.144.139.49'
-  const token = ref('')
+  const token = ref(null)
 
   const isLogin = computed(() => {
     if (token.value === null) {
@@ -34,9 +34,13 @@ export const userCheckStore = defineStore('usercheck', () => {
     })
       .then((res) => {
         console.log('회원가입 완료')
+        nickname.value = null
         logIn({ username: username, password: password1 })
         router.push({name: 'home'})
-        window.alert('회원가입을 축하합니다. \n 개인정보 수정에서 상세 내용을 수정하고 추천 상품을 받아보세요.')
+        const confirm = window.alert('회원가입을 축하합니다. \n 개인정보 수정에서 상세 내용을 수정하고 추천 상품을 받아보세요.')
+        if (confirm) {
+          window.location.reload()
+        }
       })
       .catch((err) => {
         console.log(err)
@@ -86,10 +90,27 @@ export const userCheckStore = defineStore('usercheck', () => {
         userId.value = username
         router.push({name: 'home'})
         findUserPK(res.data.key)
+        checkUser()
       })
       .catch((err) => {
         console.log(err)
         window.alert('아이디 또는 비밀번호가 틀렸습니다.')
+      })
+  }
+
+  const checkUser = function () {
+    axios({
+      method: 'get',
+      url: `${API_URL}/api/v1/accounts/userdetail/`,
+      headers: {
+        Authorization: `Token ${token.value}`
+      }
+    })
+      .then((res) => {
+        nickname.value = res.data.nickname
+      })
+      .catch((err) => {
+        console.log(err)
       })
   }
 
@@ -109,7 +130,9 @@ export const userCheckStore = defineStore('usercheck', () => {
         .then((res) => {
           token.value = null
           userId.value = null
+          nickname.value = null
           window.alert("회원탈퇴가 정상적으로 처리되었습니다. 그동안 이용해주셔서 감사합니다.")
+          router.push({ name: 'home'})
         })
         .catch((err) => {
           console.log(err)
@@ -127,6 +150,7 @@ export const userCheckStore = defineStore('usercheck', () => {
         console.log('로그아웃 완료')
         token.value = null
         userId.value = null
+        nickname.value = null
         router.push({ name: 'home'})
       })
       .catch((err) => {

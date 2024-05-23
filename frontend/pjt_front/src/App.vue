@@ -63,15 +63,44 @@
 </template>
 
 <script setup>
+import axios from 'axios'
 import { RouterView, RouterLink } from 'vue-router'
 import { userCheckStore } from '@/stores/usercheck'
 import { useRouter, useRoute } from 'vue-router'
+import { onMounted, watch, ref } from 'vue'
 
 const router = useRouter()
 const route = useRoute()
 const userStore = userCheckStore()
 
-const nickname = userStore.nickname
+const nickname = ref(null)
+
+onMounted(() => {
+  checkUser(),
+  nickname.value = userStore.nickname
+})
+
+watch(() => userStore.nickname, (newNickname) => {
+  nickname.value = newNickname
+})
+
+const checkUser = function () {
+  axios({
+    method: 'get',
+    url: `${userStore.API_URL}/api/v1/accounts/userdetail/`,
+    headers: {
+      Authorization: `Token ${userStore.token}`
+    }
+  })
+    .then((res) => {
+      nickname.value = res.data.nickname
+      userStore.nickname = res.data.nickname
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+}
+
 
 const toBeContinue = function () {
   window.alert('작성중...')

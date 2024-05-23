@@ -2,9 +2,6 @@
   <div class="comment-card">
     <v-card class="mx-auto" outlined>
       <v-list-item>
-        <v-list-item-avatar color="grey">
-          <v-icon>mdi-account-circle</v-icon>
-        </v-list-item-avatar>
 
         <v-row justify="space-between" align="center">
           <v-col>

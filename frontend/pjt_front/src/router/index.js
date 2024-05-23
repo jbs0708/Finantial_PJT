@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { userCheckStore } from '@/stores/usercheck'
 
 import MainPageView from '@/views/MainPageView.vue'
 import SignUpView from '@/views/user/SignUpView.vue'
@@ -23,7 +24,6 @@ import ProductListSaving from '@/views/finantial-data/ProductListSavingView.vue'
 import ProductDepositDetailView from '@/views/finantial-data/ProductDepositDetailView.vue'
 import ProductSavingDetailView from '@/views/finantial-data/ProductSavingDetailView.vue'
 
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -35,17 +35,44 @@ const router = createRouter({
     {
       path: '/signup',
       name: 'signup',
-      component: SignUpView
+      component: SignUpView,
+      beforeEnter: (to, from, next) => {
+        const userStore = userCheckStore()
+        if (!userStore.isLogin) {
+          next()
+        } else {
+          window.alert('이미 로그인되어 있습니다.')
+          next({ name: 'home' })
+        }
+      }
     },
     {
       path: '/login',
       name: 'login',
-      component: LoginView
+      component: LoginView,
+      beforeEnter: (to, from, next) => {
+        const userStore = userCheckStore()
+        if (!userStore.isLogin) {
+          next()
+        } else {
+          window.alert('이미 로그인되어 있습니다.')
+          next({ name: 'home' })
+        }
+      }
     },
     {
       path: '/changepassword',
       name: 'changepassword',
-      component: ChangePasswordView
+      component: ChangePasswordView,
+      beforeEnter: (to, from, next) => {
+        const userStore = userCheckStore()
+        if (userStore.isLogin) {
+          next()
+        } else {
+          window.alert('로그인이 필요합니다.')
+          next({ name: 'login' })
+        }
+      }
     },
     {
       path: '/map',
@@ -55,72 +82,198 @@ const router = createRouter({
     {
       path: '/SearchProductView',
       name: 'SearchProductView',
-      component: SearchProductView
+      component: SearchProductView,
+      beforeEnter: (to, from, next) => {
+        const userStore = userCheckStore()
+        if (userStore.isLogin) {
+          next()
+        } else {
+          window.alert('로그인이 필요합니다.')
+          next({ name: 'login' })
+        }
+      }
     },
     {
       path: '/ProductListDeposit',
       name: 'ProductListDeposit',
-      component: ProductListDeposit
+      component: ProductListDeposit,
+      beforeEnter: (to, from, next) => {
+        const userStore = userCheckStore()
+        if (userStore.isLogin) {
+          next()
+        } else {
+          window.alert('로그인이 필요합니다.')
+          next({ name: 'login' })
+        }
+      }
     },
     {
       path: '/ProductRecommendDeposit',
       name: 'ProductRecommendDeposit',
-      component: ProductRecommendDeposit
+      component: ProductRecommendDeposit,
+      beforeEnter: (to, from, next) => {
+        const userStore = userCheckStore()
+        if (userStore.isLogin) {
+          next()
+        } else {
+          window.alert('로그인이 필요합니다.')
+          next({ name: 'login' })
+        }
+      }
     },
     {
       path: '/ProductRecommendSaving',
       name: 'ProductRecommendSaving',
-      component: ProductRecommendSaving
+      component: ProductRecommendSaving,
+      beforeEnter: (to, from, next) => {
+        const userStore = userCheckStore()
+        if (userStore.isLogin) {
+          next()
+        } else {
+          window.alert('로그인이 필요합니다.')
+          next({ name: 'login' })
+        }
+      }
     },
     {
       path: '/ProductListSaving',
       name: 'ProductListSaving',
-      component: ProductListSaving
+      component: ProductListSaving,
+      beforeEnter: (to, from, next) => {
+        const userStore = userCheckStore()
+        if (userStore.isLogin) {
+          next()
+        } else {
+          window.alert('로그인이 필요합니다.')
+          next({ name: 'login' })
+        }
+      }
     },
     {
       path: '/ProductDepositDetailView/:fin_prdt_cd',
       name: 'ProductDepositDetailView',
-      component: ProductDepositDetailView
+      component: ProductDepositDetailView,
+      beforeEnter: (to, from, next) => {
+        const userStore = userCheckStore()
+        if (userStore.isLogin) {
+          next()
+        } else {
+          window.alert('로그인이 필요합니다.')
+          next({ name: 'login' })
+        }
+      }
     },
     {
       path: '/ProductSavingDetailView/:fin_prdt_cd',
       name: 'ProductSavingDetailView',
-      component: ProductSavingDetailView
+      component: ProductSavingDetailView,
+      beforeEnter: (to, from, next) => {
+        const userStore = userCheckStore()
+        if (userStore.isLogin) {
+          next()
+        } else {
+          window.alert('로그인이 필요합니다.')
+          next({ name: 'login' })
+        }
+      }
     },
     {
       path: '/myprofile',
       name: 'myprofile',
-      component: MyProfileView
+      component: MyProfileView,
+      beforeEnter: (to, from, next) => {
+        const userStore = userCheckStore()
+        if (userStore.isLogin) {
+          next()
+        } else {
+          window.alert('로그인이 필요합니다.')
+          next({ name: 'login' })
+        }
+      }
     },
     {
       path: '/board',
       name: 'board',
-      component: ArticleView
+      component: ArticleView,
+      beforeEnter: (to, from, next) => {
+        const userStore = userCheckStore()
+        if (userStore.isLogin) {
+          next()
+        } else {
+          window.alert('로그인이 필요합니다.')
+          next({ name: 'login' })
+        }
+      }
     },
     {
       path: '/create',
       name: 'CreateView',
-      component: CreateView
+      component: CreateView,
+      beforeEnter: (to, from, next) => {
+        const userStore = userCheckStore()
+        if (userStore.isLogin) {
+          next()
+        } else {
+          window.alert('로그인이 필요합니다.')
+          next({ name: 'login' })
+        }
+      }
     },
     {
       path: '/articles/:id',
       name: 'DetailView',
-      component: DetailView
+      component: DetailView,
+      beforeEnter: (to, from, next) => {
+        const userStore = userCheckStore()
+        if (userStore.isLogin) {
+          next()
+        } else {
+          window.alert('로그인이 필요합니다.')
+          next({ name: 'login' })
+        }
+      }
     },
     {
       path: '/ProductDepositRecommendView/:selectedCompany',
       name: 'ProductDepositRecommendView',
-      component: ProductDepositRecommendView
+      component: ProductDepositRecommendView,
+      beforeEnter: (to, from, next) => {
+        const userStore = userCheckStore()
+        if (userStore.isLogin) {
+          next()
+        } else {
+          window.alert('로그인이 필요합니다.')
+          next({ name: 'login' })
+        }
+      }
     },
     {
       path: '/ProductSavingRecommendView/:selectedCompany',
       name: 'ProductSavingRecommendView',
-      component: ProductSavingRecommendView
+      component: ProductSavingRecommendView,
+      beforeEnter: (to, from, next) => {
+        const userStore = userCheckStore()
+        if (userStore.isLogin) {
+          next()
+        } else {
+          window.alert('로그인이 필요합니다.')
+          next({ name: 'login' })
+        }
+      }
     },
     {
       path: '/articles/:id',
       name: 'UpdateView',
-      component: CreateView
+      component: CreateView,
+      beforeEnter: (to, from, next) => {
+        const userStore = userCheckStore()
+        if (userStore.isLogin) {
+          next()
+        } else {
+          window.alert('로그인이 필요합니다.')
+          next({ name: 'login' })
+        }
+      }
     }
   ]
 })

@@ -1,8 +1,8 @@
 <template>
 
   <div class="form-container sign-up-container">
-    <v-form @submit.prevent="signUp">
-      <h1 class="pb-12 font-weight-bold">Create Account</h1>
+    <v-form @submit.prevent="signUp()">
+      <h1 class="pb-12 font-weight-bold">회원가입 페이지</h1>
       <v-row>
         <v-col cols="9">
           <v-text-field

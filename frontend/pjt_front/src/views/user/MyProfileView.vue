@@ -1,4 +1,7 @@
 <template>
+    <v-row fluid grid-list-sm>
+    <v-spacer></v-spacer>
+    <v-col cols="8">
   <div v-if="!store.token">
     <h3>비로그인 사용자입니다.</h3>
   </div>
@@ -149,7 +152,7 @@
 
           <v-card class="mx-auto my-5">
             <v-card-title>
-              <h3>가입한 상품 금리</h3>
+              <h3>가입한 상품 금리비교</h3>
             </v-card-title>
             <v-card-text>
               <BarChart />
@@ -164,6 +167,9 @@
       </v-row>
     </v-container>
   </div>
+</v-col>
+<v-spacer></v-spacer>
+</v-row>
 </template>
 
 <script setup>
@@ -229,6 +235,7 @@ const checkUser = function () {
       asset.value = res.data.asset
       salary.value = res.data.salary
       bank.value = res.data.bank
+      store.nickname = res.data.nickname
     })
     .catch((err) => {
       console.log(err)

@@ -15,11 +15,11 @@ export const useDataStore = defineStore('data', () => {
             method:'GET',
             url: `${API_URL}/compare_deposit/deposit_product/`,
             
-          })
-          .then(res => {
+            })
+            .then(res => {
             console.log(res.data)
-          }).
-          catch(err => 
+            }).
+            catch(err => 
             console.error(err)
         )
         axios({
@@ -34,7 +34,8 @@ export const useDataStore = defineStore('data', () => {
             console.error(err)
             )
     }
-    }
+}
+
 
  const getDatas = function () {
   axios({

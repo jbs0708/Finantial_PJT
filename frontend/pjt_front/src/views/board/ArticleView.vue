@@ -1,9 +1,15 @@
 <template>
-  <div>
-    <h1>게시판</h1>
-    <v-btn @click="goCreateView">게시글 작성하기</v-btn>
-    <ArticleList />
-  </div>
+  <v-row fluid grid-list-sm>
+    <v-spacer></v-spacer>
+    <v-col cols="8">
+      <div>
+        <h1>게시판</h1>
+        <v-btn @click="goCreateView">게시글 작성하기</v-btn>
+        <ArticleList />
+      </div>
+    </v-col>
+    <v-spacer></v-spacer>
+  </v-row>
 </template>
 
 <script setup>
