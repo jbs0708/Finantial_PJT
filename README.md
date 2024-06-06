@@ -1,6 +1,6 @@
 # Finantial_PJT
 
-## 1. 팀원정보 (팀이름, 각자이름, PJT이름, 깃주소, 프젝 주소…etc)
+## 1. 팀원정보
 [김광수(팀장)](https://github.com/kimgs888)
 |
 [정범수](https://github.com/jbs0708)
